@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Board.png" />
+    <None Remove="Assets\pieceBlack.png" />
+    <None Remove="Assets\pieceWhite.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OthelloLogic\OthelloLogic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Board.png" />
+    <Resource Include="Assets\pieceBlack.png" />
+    <Resource Include="Assets\pieceWhite.png" />
+  </ItemGroup>
+
+</Project>
