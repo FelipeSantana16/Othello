@@ -5,10 +5,10 @@
         public Board Board { get; }
         public Player CurrentPlayer { get; private set; }
 
-        public GameState(Player player, Board board)
+        public GameState()
         {
-            Board = board;
-            CurrentPlayer = player;
+            Board = Board.Initial();
+            CurrentPlayer = Player.White;
         }
 
         public bool CanMovePiece(Position pos)

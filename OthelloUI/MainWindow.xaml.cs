@@ -1,4 +1,5 @@
-﻿using OthelloLogic;
+﻿using OthelloApplication.UseCases;
+using OthelloLogic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,19 +12,24 @@ namespace OthelloUI
     {
         private readonly Image[,] pieceImages = new Image[8, 8];
 
-        private GameState gameState;
+        private readonly AddOrMoveBoardPieceUseCase _addOrMoveBoardPieceUseCase;
+
+        private GameState _gameState;
         private Position selectedPos = null;
 
-        public MainWindow()
+        public MainWindow(GameState gameState, AddOrMoveBoardPieceUseCase addOrMoveBoardPieceUseCase)
         {
             InitializeComponent();
             InitializeBoard();
 
-            gameState = new GameState(Player.White, Board.Initial());
+            _gameState = gameState;
 
             DrawBoard(gameState.Board);
-        }
 
+            _addOrMoveBoardPieceUseCase = addOrMoveBoardPieceUseCase;
+            _addOrMoveBoardPieceUseCase.MovimentProcessed += OnMovimentProcessed;
+        }
+        
         public void InitializeBoard()
         {
             for (int r = 0; r < 8; r++)
@@ -78,41 +84,51 @@ namespace OthelloUI
             selectedPos = pos;
         }
 
-        public void OnToPositionSelected(Position pos)
+        public async Task OnToPositionSelected(Position pos)
         {
             if (selectedPos == pos)
             {
-                if(gameState.Board.IsEmpty(pos))
+                if(_gameState.Board.IsEmpty(pos))
                 {
                     selectedPos = null;
                 }
                 else
                 {
                     selectedPos = null;
-                    HandleToggle(pos);
+                    // chama useCase de toggle
                 }
             }
             else
             {
-                if (gameState.CanMovePiece(pos))
-                {
-                    var move = new Move(selectedPos, pos);
-                    HandleMove(move);
-                    selectedPos = null;
-                }
+                var move = new Move(selectedPos, pos);
+                await _addOrMoveBoardPieceUseCase.HandleMovimentAsync(move);
+
+                selectedPos = null;
             }
         }
 
-        public void HandleMove(Move move)
+        private void OnMovimentProcessed(object sender, MovimentProcessedEventArgs e)
         {
-            gameState.MakeMove(move);
-            DrawBoard(gameState.Board);
+            Dispatcher.Invoke(() =>
+            {
+                if (e.IsSucesses)
+                {
+                    DrawBoard(_gameState.Board);
+                }
+                else
+                {
+                    Console.WriteLine(e.ErrorMessage);
+                    // mostrar mensagem de que o movimento foi proibido usando a mensagem de erro
+                }
+            });
         }
 
-        public void HandleToggle(Position pos)
+        private void OnToggleProcessed(object sender)
         {
-            gameState.Board[pos].TogglePieceSide();
-            DrawBoard(gameState.Board);
+            Dispatcher.Invoke(() =>
+            {
+                DrawBoard(_gameState.Board);
+            });
         }
     }
 }

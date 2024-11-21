@@ -15,6 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OthelloApplication\OthelloApplication.csproj" />
+    <ProjectReference Include="..\OthelloInfrastructure\OthelloInfrastructure.csproj" />
     <ProjectReference Include="..\OthelloLogic\OthelloLogic.csproj" />
   </ItemGroup>
 
