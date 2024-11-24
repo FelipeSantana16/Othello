@@ -19,5 +19,19 @@ namespace OthelloApplication.Interfaces
             var move = "MOVE-" + jsonMessage;
             await _tcpServer.SendMessageToPlayer2Async(move);
         }
+
+        public async Task SendTogglePerformedMessageAsync(ToggleProcessedEventArgs message)
+        {
+            var jsonMessage = JsonSerializer.Serialize(message);
+            var toggle = "TOGGLE-" + jsonMessage;
+            await _tcpServer.SendMessageToPlayer2Async(toggle);
+        }
+
+        public async Task SendShiftTurnExecutedMessageAsync(ShiftTurnEventArgs message)
+        {
+            var jsonMessage = JsonSerializer.Serialize(message);
+            var shift = "SHIFT-" + jsonMessage;
+            await _tcpServer.SendMessageToPlayer2Async(shift);
+        }
     }
 }

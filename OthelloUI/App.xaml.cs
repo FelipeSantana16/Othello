@@ -38,8 +38,11 @@ namespace OthelloUI
 
             services.AddTransient<MainWindow>();
 
-            // TODO: registrar useCases
             services.AddTransient<AddOrMoveBoardPieceUseCase>();
+            services.AddTransient<ChatUseCase>();
+            services.AddTransient<ShiftTurnUseCase>();
+            services.AddTransient<SurrenderUseCase>();
+            services.AddTransient<TogglePieceSideUseCase>();
 
             services.AddTransient<CommunicationManager>();
         }

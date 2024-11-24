@@ -13,11 +13,17 @@ namespace OthelloUI
         private readonly Image[,] pieceImages = new Image[8, 8];
 
         private readonly AddOrMoveBoardPieceUseCase _addOrMoveBoardPieceUseCase;
+        private readonly TogglePieceSideUseCase _togglePieceSideUseCase;
+        private readonly ShiftTurnUseCase _shiftTurnUseCase;
 
         private GameState _gameState;
         private Position selectedPos = null;
 
-        public MainWindow(GameState gameState, AddOrMoveBoardPieceUseCase addOrMoveBoardPieceUseCase)
+        public MainWindow(
+            GameState gameState,
+            AddOrMoveBoardPieceUseCase addOrMoveBoardPieceUseCase,
+            TogglePieceSideUseCase togglePieceSideUseCase,
+            ShiftTurnUseCase shiftTurnUseCase)
         {
             InitializeComponent();
             InitializeBoard();
@@ -28,6 +34,12 @@ namespace OthelloUI
 
             _addOrMoveBoardPieceUseCase = addOrMoveBoardPieceUseCase;
             _addOrMoveBoardPieceUseCase.MovimentProcessed += OnMovimentProcessed;
+
+            _togglePieceSideUseCase = togglePieceSideUseCase;
+            _togglePieceSideUseCase.ToggleProcessed += OnToggleProcessed;
+
+            _shiftTurnUseCase = shiftTurnUseCase;
+            _shiftTurnUseCase.ShiftTurnProcessed += OnShiftTurnProcessed;
         }
         
         public void InitializeBoard()
@@ -95,13 +107,15 @@ namespace OthelloUI
                 else
                 {
                     selectedPos = null;
-                    // chama useCase de toggle
+                    await _togglePieceSideUseCase.HandleToggleAsync(Player.White, pos);
                 }
             }
             else
             {
                 var move = new Move(selectedPos, pos);
-                await _addOrMoveBoardPieceUseCase.HandleMovimentAsync(move);
+                await _addOrMoveBoardPieceUseCase.HandleMovimentAsync(Player.White, move);
+
+                await _shiftTurnUseCase.HandleShiftTurnAsync();
 
                 selectedPos = null;
             }
@@ -111,7 +125,7 @@ namespace OthelloUI
         {
             Dispatcher.Invoke(() =>
             {
-                if (e.IsSucesses)
+                if (e.IsSuccess)
                 {
                     DrawBoard(_gameState.Board);
                 }
@@ -123,12 +137,30 @@ namespace OthelloUI
             });
         }
 
-        private void OnToggleProcessed(object sender)
+        private void OnToggleProcessed(object sender, ToggleProcessedEventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            if (e.IsSuccess)
             {
                 DrawBoard(_gameState.Board);
-            });
+            }
+            else
+            {
+                Console.WriteLine(e.ErrorMessage);
+                // mostrar mensagem de que o movimento foi proibido usando a mensagem de erro
+            }
+        }
+
+        private void OnShiftTurnProcessed(object sender, ShiftTurnEventArgs e)
+        {
+            if (e.IsSuccess)
+            {
+                DrawBoard(_gameState.Board);
+            }
+            else
+            {
+                Console.WriteLine(e.ErrorMessage);
+                // mostrar mensagem de que o movimento foi proibido usando a mensagem de erro
+            }
         }
     }
 }
