@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OthelloApplication\OthelloApplication.csproj" />
+    <ProjectReference Include="..\OthelloLogic\OthelloLogic.csproj" />
+  </ItemGroup>
+
 </Project>

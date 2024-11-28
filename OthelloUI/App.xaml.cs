@@ -1,8 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OthelloApplication.Interfaces;
-using OthelloApplication.UseCases;
+using OthelloApplication.UseCases.AddBoardPiece;
+using OthelloApplication.UseCases.Chat;
+using OthelloApplication.UseCases.MoveBoardPiece;
+using OthelloApplication.UseCases.ShiftTurn;
+using OthelloApplication.UseCases.Surrender;
+using OthelloApplication.UseCases.TogglePieceSide;
 using OthelloInfrastructure;
 using OthelloLogic;
+using OthelloLogic.Interfaces;
 using System.Windows;
 
 namespace OthelloUI
@@ -32,19 +38,26 @@ namespace OthelloUI
 
         private void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(AddBoardPieceUseCase).Assembly);
+            });
+            
+            services.AddTransient<MessageHandler>();
             services.AddSingleton<TcpServer>();
             services.AddSingleton<Board>();
             services.AddSingleton<GameState>();
 
             services.AddTransient<MainWindow>();
 
-            services.AddTransient<AddOrMoveBoardPieceUseCase>();
+            services.AddTransient<AddBoardPieceUseCase>();
+            services.AddTransient<MoveBoardPieceUseCase>();
             services.AddTransient<ChatUseCase>();
             services.AddTransient<ShiftTurnUseCase>();
             services.AddTransient<SurrenderUseCase>();
             services.AddTransient<TogglePieceSideUseCase>();
 
-            services.AddTransient<CommunicationManager>();
+            services.AddTransient<ICommunicationManager,CommunicationManager>();
         }
     }
 }

@@ -24,6 +24,11 @@
             move.Execute(Board);
         }
 
+        public void AddPiece(Player player, Position pos)
+        {
+            Board[pos] = new Piece(player);
+        }
+
         public void FinishTurn()
         {
             CurrentPlayer = CurrentPlayer.Opponent();

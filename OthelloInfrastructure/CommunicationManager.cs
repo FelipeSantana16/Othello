@@ -1,16 +1,24 @@
-﻿using OthelloApplication.UseCases;
-using OthelloInfrastructure;
+﻿using OthelloInfrastructure;
+using OthelloLogic.Interfaces;
+using OthelloLogic.Messages;
 using System.Text.Json;
 
 namespace OthelloApplication.Interfaces
 {
-    public class CommunicationManager
+    public class CommunicationManager : ICommunicationManager
     {
         private readonly TcpServer _tcpServer;
 
         public CommunicationManager(TcpServer tcpServer)
         {
             _tcpServer = tcpServer;
+        }
+
+        public async Task SendBoardPieceAddedMessageAsync(AddProcessedEventArgs message)
+        {
+            var jsonMessage = JsonSerializer.Serialize(message);
+            var add = "ADD-" + jsonMessage;
+            await _tcpServer.SendMessageToPlayer2Async(add);
         }
 
         public async Task SendBoardPieceMovedMessageAsync(MovimentProcessedEventArgs message)
@@ -32,6 +40,13 @@ namespace OthelloApplication.Interfaces
             var jsonMessage = JsonSerializer.Serialize(message);
             var shift = "SHIFT-" + jsonMessage;
             await _tcpServer.SendMessageToPlayer2Async(shift);
+        }
+
+        public async Task SendChatMessageAsync(MessageReceivedEventArgs message)
+        {
+            var jsonMessage = JsonSerializer.Serialize(message);
+            var chatMessage = "MESSAGE-" + jsonMessage;
+            await _tcpServer.SendMessageToPlayer2Async(chatMessage);
         }
     }
 }

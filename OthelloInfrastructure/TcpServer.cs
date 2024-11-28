@@ -7,10 +7,12 @@ namespace OthelloInfrastructure
     {
         private TcpListener _listener;
         private TcpClient _connectedClient;
+        private readonly MessageHandler _messageHandler;
         private bool _isRunning;
 
-        public TcpServer(int port = 7000)
+        public TcpServer(MessageHandler messageHandler, int port = 7000)
         {
+            _messageHandler = messageHandler;
             _listener = new TcpListener(IPAddress.Any, port);
         }
 
@@ -50,7 +52,7 @@ namespace OthelloInfrastructure
                         string messageReceived = await reader.ReadLineAsync();
                         if (messageReceived == null) break;
 
-                        await MessageHandler.HandleAsync(messageReceived);
+                        await _messageHandler.HandleAsync(messageReceived);
 
                         Console.WriteLine($"Mensagem recebida do Player 2: {messageReceived}");
                     }

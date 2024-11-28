@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OthelloInfrastructure\OthelloInfrastructure.csproj" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OthelloLogic\OthelloLogic.csproj" />
   </ItemGroup>
 

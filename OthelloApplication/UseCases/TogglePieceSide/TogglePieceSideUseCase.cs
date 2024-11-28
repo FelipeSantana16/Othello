@@ -1,34 +1,36 @@
-﻿using OthelloApplication.Interfaces;
+﻿using MediatR;
 using OthelloLogic;
+using OthelloLogic.Interfaces;
+using OthelloLogic.Messages;
 
-namespace OthelloApplication.UseCases
+namespace OthelloApplication.UseCases.TogglePieceSide
 {
-    public class TogglePieceSideUseCase
+    public class TogglePieceSideUseCase : IRequestHandler<TogglePieceSideUseCaseInput>
     {
         private readonly GameState _gameState;
-        private readonly CommunicationManager _communicationManager;
+        private readonly ICommunicationManager _communicationManager;
         public event EventHandler<ToggleProcessedEventArgs> ToggleProcessed;
 
-        public TogglePieceSideUseCase(GameState gameState, CommunicationManager communicationManager)
+        public TogglePieceSideUseCase(GameState gameState, ICommunicationManager communicationManager)
         {
             _gameState = gameState;
             _communicationManager = communicationManager;
         }
 
-        public async Task HandleToggleAsync(Player player, Position pos)
+        public async Task Handle(TogglePieceSideUseCaseInput request, CancellationToken cancellationToken)
         {
             var toggleEventArgs = new ToggleProcessedEventArgs();
 
-            if (_gameState.CurrentPlayer != player)
+            if (_gameState.CurrentPlayer != request.Player)
             {
                 toggleEventArgs.IsSuccess = false;
-                toggleEventArgs.ErrorMessage = $"Its not player {player.ToString()} turn";
+                toggleEventArgs.ErrorMessage = $"Its not player {request.Player.ToString()} turn";
 
                 OnToggleProcessed(toggleEventArgs);
                 return;
             }
 
-            if (_gameState.Board[pos] == null)
+            if (_gameState.Board[request.Position] == null)
             {
                 toggleEventArgs.IsSuccess = false;
                 toggleEventArgs.ErrorMessage = "There is not board piece in the position selected";
@@ -37,10 +39,10 @@ namespace OthelloApplication.UseCases
                 return;
             }
 
-            _gameState.Board[pos].TogglePieceSide();
+            _gameState.Board[request.Position].TogglePieceSide();
 
             toggleEventArgs.IsSuccess = true;
-            toggleEventArgs.TogglePerformedPosition = pos;
+            toggleEventArgs.TogglePerformedPosition = request.Position;
 
             OnToggleProcessed(toggleEventArgs);
 
@@ -52,12 +54,5 @@ namespace OthelloApplication.UseCases
         {
             ToggleProcessed?.Invoke(this, move);
         }
-    }
-
-    public class ToggleProcessedEventArgs : EventArgs
-    {
-        public bool IsSuccess { get; set; }
-        public string ErrorMessage { get; set; }
-        public Position? TogglePerformedPosition { get; set; }
     }
 }

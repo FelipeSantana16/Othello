@@ -48,8 +48,7 @@
                 
                 <Image x:Name="TurnIndicatorImage" 
                           Width="50" 
-                          Height="50" 
-                          Source="Assets/pieceWhite.png" 
+                          Height="50"
                           RenderOptions.BitmapScalingMode="HighQuality"
                           Margin="10,0,10,0"/>
             </StackPanel>
@@ -65,8 +64,8 @@
                         Height="32"
                         Margin="0, 0, 0, 4"
                         Background="#343a40"
-                        BorderBrush="#343a40">
-                    <!--Click="AddPieceButton_Click">-->
+                        BorderBrush="#343a40"
+                        Click="AddPieceButton_Click">
 
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -80,8 +79,8 @@
                         Height="32" 
                         Margin="0, 0, 0, 4"
                         Background="#343a40"
-                        BorderBrush="#343a40">
-                    <!--Click="FinishTurn_Click">-->
+                        BorderBrush="#343a40"
+                        Click="FinishTurn_Click">
 
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -94,8 +93,8 @@
                         Foreground="White"
                         Height="32" 
                         Background="#fa5252"
-                        BorderBrush="#fa5252">
-                    <!--Click="SurrenderButton_Click">-->
+                        BorderBrush="#fa5252"
+                        Click="SurrenderButton_Click">
                     
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -141,8 +140,8 @@
                         <Button x:Name="SendMessageButton"
                                 Content="Enviar"
                                 Width="80"
-                                Height="30"/>
-                        <!--Click="SendMessageButton_Click"/>-->
+                                Height="30"
+                                Click="SendMessageButton_Click"/>
                     </DockPanel>
                 </DockPanel>
             </Border>

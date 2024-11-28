@@ -1,34 +1,36 @@
-﻿using OthelloApplication.Interfaces;
+﻿using MediatR;
 using OthelloLogic;
+using OthelloLogic.Interfaces;
+using OthelloLogic.Messages;
 
-namespace OthelloApplication.UseCases
+namespace OthelloApplication.UseCases.MoveBoardPiece
 {
-    public class AddOrMoveBoardPieceUseCase
+    public class MoveBoardPieceUseCase : IRequestHandler<MoveBoardPieceUseCaseInput>
     {
         private readonly GameState _gameState;
-        private readonly CommunicationManager _communicationManager;
+        private readonly ICommunicationManager _communicationManager;
         public event EventHandler<MovimentProcessedEventArgs> MovimentProcessed;
 
-        public AddOrMoveBoardPieceUseCase(GameState gameState, CommunicationManager communicationManager)
+        public MoveBoardPieceUseCase(GameState gameState, ICommunicationManager communicationManager)
         {
             _gameState = gameState;
             _communicationManager = communicationManager;
         }
 
-        public async Task HandleMovimentAsync(Player player, Move move)
+        public async Task Handle(MoveBoardPieceUseCaseInput request, CancellationToken cancellationToken)
         {
             var movimentEventArgs = new MovimentProcessedEventArgs();
 
-            if (_gameState.CurrentPlayer != player)
+            if (_gameState.CurrentPlayer != request.Player)
             {
                 movimentEventArgs.IsSuccess = false;
-                movimentEventArgs.ErrorMessage = $"Its not player {player.ToString()} turn";
+                movimentEventArgs.ErrorMessage = $"Its not player {request.Player.ToString()} turn";
 
                 OnMovimentProcessed(movimentEventArgs);
                 return;
             }
 
-            if (!_gameState.CanMovePiece(move.ToPos))
+            if (!_gameState.CanMovePiece(request.Move.ToPos))
             {
                 movimentEventArgs.IsSuccess = false;
                 movimentEventArgs.ErrorMessage = "Cant move piece to selected position";
@@ -37,10 +39,10 @@ namespace OthelloApplication.UseCases
                 return;
             }
 
-            _gameState.MakeMove(move);
+            _gameState.MakeMove(request.Move);
 
             movimentEventArgs.IsSuccess = true;
-            movimentEventArgs.MovimentPerformed = move;
+            movimentEventArgs.MovimentPerformed = request.Move;
 
             OnMovimentProcessed(movimentEventArgs);
 
@@ -52,12 +54,5 @@ namespace OthelloApplication.UseCases
         {
             MovimentProcessed?.Invoke(this, move);
         }
-    }
-
-    public class MovimentProcessedEventArgs : EventArgs
-    {
-        public bool IsSuccess { get; set; }
-        public string ErrorMessage { get; set; }
-        public Move? MovimentPerformed { get; set; }
     }
 }
