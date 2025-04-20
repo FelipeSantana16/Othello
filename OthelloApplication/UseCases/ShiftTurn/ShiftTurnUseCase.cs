@@ -1,20 +1,20 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using OthelloLogic;
 using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 
 namespace OthelloApplication.UseCases.ShiftTurn
 {
-    public class ShiftTurnUseCase : IRequestHandler<ShiftTurnUseCaseInput>
+    public class ShiftTurnUseCase : IShiftTurnUseCase
     {
         private readonly GameState _gameState;
         private readonly ICommunicationManager _communicationManager;
-        public event EventHandler<ShiftTurnEventArgs> ShiftTurnProcessed;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public ShiftTurnUseCase(GameState gameState, ICommunicationManager communicationManager)
+        public ShiftTurnUseCase(GameState gameState, ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher)
         {
             _gameState = gameState;
             _communicationManager = communicationManager;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task Handle(ShiftTurnUseCaseInput request, CancellationToken cancellationToken)
@@ -43,7 +43,7 @@ namespace OthelloApplication.UseCases.ShiftTurn
 
         protected virtual void OnShiftTuenProcessed(ShiftTurnEventArgs turn)
         {
-            ShiftTurnProcessed?.Invoke(this, turn);
+            _domainEventDispatcher.RaiseShiftTurnProcessed(turn);
         }
     }
 }

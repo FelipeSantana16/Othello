@@ -1,20 +1,20 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using OthelloLogic;
 using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 
 namespace OthelloApplication.UseCases.TogglePieceSide
 {
-    public class TogglePieceSideUseCase : IRequestHandler<TogglePieceSideUseCaseInput>
+    public class TogglePieceSideUseCase : ITogglePieceSideUseCase
     {
         private readonly GameState _gameState;
         private readonly ICommunicationManager _communicationManager;
-        public event EventHandler<ToggleProcessedEventArgs> ToggleProcessed;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public TogglePieceSideUseCase(GameState gameState, ICommunicationManager communicationManager)
+        public TogglePieceSideUseCase(GameState gameState, ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher)
         {
             _gameState = gameState;
             _communicationManager = communicationManager;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task Handle(TogglePieceSideUseCaseInput request, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ namespace OthelloApplication.UseCases.TogglePieceSide
 
         protected virtual void OnToggleProcessed(ToggleProcessedEventArgs move)
         {
-            ToggleProcessed?.Invoke(this, move);
+            _domainEventDispatcher.RaiseToggleProcessed(move);
         }
     }
 }

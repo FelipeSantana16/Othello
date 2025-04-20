@@ -1,17 +1,17 @@
-﻿using MediatR;
-using OthelloLogic.Interfaces;
+﻿using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 
 namespace OthelloApplication.UseCases.Chat
 {
-    public class ChatUseCase : IRequestHandler<ChatUseCaseInput>
+    public class ChatUseCase : IChatUseCase
     {
         private readonly ICommunicationManager _communicationManager;
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public ChatUseCase(ICommunicationManager communicationManager)
+        public ChatUseCase(ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher)
         {
             _communicationManager = communicationManager;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task Handle(ChatUseCaseInput request, CancellationToken cancellationToken)
@@ -29,7 +29,7 @@ namespace OthelloApplication.UseCases.Chat
 
         protected virtual void OnMessageReceived(MessageReceivedEventArgs message)
         {
-            MessageReceived?.Invoke(this, message);
+            _domainEventDispatcher.RaiseMessageReceived(message);
         }
     }
 }

@@ -18,35 +18,35 @@ namespace OthelloApplication.Interfaces
         {
             var jsonMessage = JsonSerializer.Serialize(message);
             var add = "ADD-" + jsonMessage;
-            await _tcpServer.SendMessageToPlayer2Async(add);
+            await _tcpServer.SendMessageToOpponentPlayerAsync(add);
         }
 
         public async Task SendBoardPieceMovedMessageAsync(MovimentProcessedEventArgs message)
         {
             var jsonMessage = JsonSerializer.Serialize(message);
             var move = "MOVE-" + jsonMessage;
-            await _tcpServer.SendMessageToPlayer2Async(move);
+            await _tcpServer.SendMessageToOpponentPlayerAsync(move);
         }
 
         public async Task SendTogglePerformedMessageAsync(ToggleProcessedEventArgs message)
         {
             var jsonMessage = JsonSerializer.Serialize(message);
             var toggle = "TOGGLE-" + jsonMessage;
-            await _tcpServer.SendMessageToPlayer2Async(toggle);
+            await _tcpServer.SendMessageToOpponentPlayerAsync(toggle);
         }
 
         public async Task SendShiftTurnExecutedMessageAsync(ShiftTurnEventArgs message)
         {
             var jsonMessage = JsonSerializer.Serialize(message);
             var shift = "SHIFT-" + jsonMessage;
-            await _tcpServer.SendMessageToPlayer2Async(shift);
+            await _tcpServer.SendMessageToOpponentPlayerAsync(shift);
         }
 
         public async Task SendChatMessageAsync(MessageReceivedEventArgs message)
         {
             var jsonMessage = JsonSerializer.Serialize(message);
             var chatMessage = "MESSAGE-" + jsonMessage;
-            await _tcpServer.SendMessageToPlayer2Async(chatMessage);
+            await _tcpServer.SendMessageToOpponentPlayerAsync(chatMessage);
         }
     }
 }

@@ -1,20 +1,20 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using OthelloLogic;
 using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 
 namespace OthelloApplication.UseCases.AddBoardPiece
 {
-    public class AddBoardPieceUseCase : IRequestHandler<AddBoardPieceUseCaseInput>
+    public class AddBoardPieceUseCase : IAddBoardPieceUseCase
     {
         private readonly GameState _gameState;
         private readonly ICommunicationManager _communicationManager;
-        public event EventHandler<AddProcessedEventArgs> AddProcessed;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public AddBoardPieceUseCase(GameState gameState, ICommunicationManager communicationManager)
+        public AddBoardPieceUseCase(GameState gameState, ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher)
         {
             _gameState = gameState;
             _communicationManager = communicationManager;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task Handle(AddBoardPieceUseCaseInput request, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ namespace OthelloApplication.UseCases.AddBoardPiece
 
         protected virtual void OnAddProcessed(AddProcessedEventArgs add)
         {
-            AddProcessed?.Invoke(this, add);
+            _domainEventDispatcher.RaiseAddProcessed(add);
         }
     }
 }

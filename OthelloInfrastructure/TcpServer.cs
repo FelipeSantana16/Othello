@@ -9,35 +9,71 @@ namespace OthelloInfrastructure
         private TcpClient _connectedClient;
         private readonly MessageHandler _messageHandler;
         private bool _isRunning;
+        private const int PORT = 7000;
+        private StreamWriter _writer;
 
-        public TcpServer(MessageHandler messageHandler, int port = 7000)
+        public TcpServer(MessageHandler messageHandler)
         {
             _messageHandler = messageHandler;
-            _listener = new TcpListener(IPAddress.Any, port);
+        }
+
+        public async Task StartAsync(bool isServer)
+        {
+            if (isServer)
+            {
+                await StartServerAsync();
+            }
+            else
+            {
+                await StartClientAsync();
+            }
         }
 
         public async Task StartServerAsync()
         {
-            _isRunning = true;
-            _listener.Start();
-
-            Console.WriteLine("Servidor TCP iniciado.");
-
-            while (_isRunning)
+            try
             {
-                var client = await _listener.AcceptTcpClientAsync();
+                _listener = new TcpListener(IPAddress.Any, PORT);
+                _listener.Start();
+                _isRunning = true;
+                Console.WriteLine("Servidor TCP iniciado.");
 
-                if (_connectedClient != null)
+                while (_isRunning)
                 {
-                    Console.WriteLine("Já existe um cliente conectado. Recusando nova conexão.");
-                    client.Close();
-                    continue;
+                    var client = await _listener.AcceptTcpClientAsync();
+
+                    if (_connectedClient != null)
+                    {
+                        Console.WriteLine("Já existe um cliente conectado. Recusando nova conexão.");
+                        client.Close();
+                        continue;
+                    }
+
+                    _connectedClient = client;
+                    Console.WriteLine("Player 2 conectado!");
+                    _ = ProcessClientAsync(_connectedClient);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao iniciar servidor: {ex.Message}");
+            }
+        }
 
-                _connectedClient = client;
-                Console.WriteLine("Player 2 conectado!");
+        public async Task StartClientAsync()
+        {
+            try
+            {
+                _connectedClient = new TcpClient();
+                await _connectedClient.ConnectAsync("127.0.0.1", PORT);
+                Console.WriteLine("Conectado ao servidor!");
 
-                _ = ProcessClientAsync(_connectedClient); // Processa o cliente de forma assíncrona
+                _isRunning = true;
+                _ = ProcessClientAsync(_connectedClient);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao conectar ao servidor: {ex.Message}");
             }
         }
 
@@ -45,7 +81,9 @@ namespace OthelloInfrastructure
         {
             try
             {
-                using (var reader = new StreamReader(client.GetStream()))
+                var stream = client.GetStream();
+                _writer = new StreamWriter(stream) { AutoFlush = true };
+                using (var reader = new StreamReader(stream))
                 {
                     while (_isRunning && client.Connected)
                     {
@@ -67,12 +105,14 @@ namespace OthelloInfrastructure
                 Console.WriteLine("Player 2 desconectado.");
                 _connectedClient?.Close();
                 _connectedClient = null;
+                _writer?.Dispose();
+                _writer = null;
             }
         }
 
-        public async Task SendMessageToPlayer2Async(string message)
+        public async Task SendMessageToOpponentPlayerAsync(string message)
         {
-            if (_connectedClient == null || !_connectedClient.Connected)
+            if (_connectedClient == null || !_connectedClient.Connected || _writer == null)
             {
                 Console.WriteLine("Não há cliente conectado para enviar a mensagem.");
                 return;
@@ -80,11 +120,8 @@ namespace OthelloInfrastructure
 
             try
             {
-                using (var writer = new StreamWriter(_connectedClient.GetStream()) { AutoFlush = true })
-                {
-                    await writer.WriteLineAsync(message);
-                    Console.WriteLine($"Mensagem enviada para o Player 2: {message}");
-                }
+                await _writer.WriteLineAsync(message);
+                Console.WriteLine($"Mensagem enviada para o Player 2: {message}");
             }
             catch (IOException ex)
             {

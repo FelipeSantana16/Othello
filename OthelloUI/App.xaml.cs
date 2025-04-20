@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OthelloApplication.Interfaces;
+using OthelloApplication.Services;
 using OthelloApplication.UseCases.AddBoardPiece;
 using OthelloApplication.UseCases.Chat;
 using OthelloApplication.UseCases.MoveBoardPiece;
@@ -30,7 +31,7 @@ namespace OthelloUI
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
             var server = _serviceProvider.GetRequiredService<TcpServer>();
-            _ = server.StartServerAsync();
+            _ = server.StartAsync(isServer: true);
 
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
@@ -50,13 +51,14 @@ namespace OthelloUI
 
             services.AddTransient<MainWindow>();
 
-            services.AddTransient<AddBoardPieceUseCase>();
-            services.AddTransient<MoveBoardPieceUseCase>();
-            services.AddTransient<ChatUseCase>();
-            services.AddTransient<ShiftTurnUseCase>();
-            services.AddTransient<SurrenderUseCase>();
-            services.AddTransient<TogglePieceSideUseCase>();
+            services.AddTransient<IAddBoardPieceUseCase, AddBoardPieceUseCase>();
+            services.AddTransient<IMoveBoardPieceUseCase, MoveBoardPieceUseCase>();
+            services.AddTransient<IChatUseCase, ChatUseCase>();
+            services.AddTransient<IShiftTurnUseCase, ShiftTurnUseCase>();
+            services.AddTransient<ISurrenderUseCase, SurrenderUseCase>();
+            services.AddTransient<ITogglePieceSideUseCase, TogglePieceSideUseCase>();
 
+            services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>();
             services.AddTransient<ICommunicationManager,CommunicationManager>();
         }
     }

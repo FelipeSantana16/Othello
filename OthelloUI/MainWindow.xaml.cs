@@ -1,9 +1,11 @@
-﻿using OthelloApplication.UseCases.AddBoardPiece;
+﻿using MediatR;
+using OthelloApplication.UseCases.AddBoardPiece;
 using OthelloApplication.UseCases.Chat;
 using OthelloApplication.UseCases.MoveBoardPiece;
 using OthelloApplication.UseCases.ShiftTurn;
 using OthelloApplication.UseCases.TogglePieceSide;
 using OthelloLogic;
+using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,11 +22,9 @@ namespace OthelloUI
     {
         private readonly Image[,] pieceImages = new Image[8, 8];
 
-        private readonly AddBoardPieceUseCase _addBoardPieceUseCase;
-        private readonly MoveBoardPieceUseCase _moveBoardPieceUseCase;
-        private readonly TogglePieceSideUseCase _togglePieceSideUseCase;
-        private readonly ShiftTurnUseCase _shiftTurnUseCase;
-        private readonly ChatUseCase _chatUseCase;
+        private readonly IMediator _mediator;
+
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
         private GameState _gameState;
         private Position selectedPos = null;
@@ -33,12 +33,9 @@ namespace OthelloUI
 
         public MainWindow(
             GameState gameState,
-            AddBoardPieceUseCase addBoardPieceUseCase,
-            MoveBoardPieceUseCase moveBoardPieceUseCase,
-            TogglePieceSideUseCase togglePieceSideUseCase,
-            ShiftTurnUseCase shiftTurnUseCase,
-            ChatUseCase chatUseCase
-            )
+            IMediator mediator,
+            IDomainEventDispatcher domainEventDispatcher
+        )
         {
             InitializeComponent();
             InitializeBoard();
@@ -49,20 +46,15 @@ namespace OthelloUI
             DrawCurrentTurn();
             DrawBoard(gameState.Board);
 
-            _addBoardPieceUseCase = addBoardPieceUseCase;
-            _addBoardPieceUseCase.AddProcessed += OnAddProcessed;
+            _mediator = mediator;
 
-            _moveBoardPieceUseCase = moveBoardPieceUseCase;
-            _moveBoardPieceUseCase.MovimentProcessed += OnMovimentProcessed;
+            _domainEventDispatcher = domainEventDispatcher;
 
-            _togglePieceSideUseCase = togglePieceSideUseCase;
-            _togglePieceSideUseCase.ToggleProcessed += OnToggleProcessed;
-
-            _shiftTurnUseCase = shiftTurnUseCase;
-            _shiftTurnUseCase.ShiftTurnProcessed += OnShiftTurnProcessed;
-
-            _chatUseCase = chatUseCase;
-            _chatUseCase.MessageReceived += OnMessageReceived;
+            _domainEventDispatcher.AddProcessed += OnAddProcessed;
+            _domainEventDispatcher.MovimentProcessed += OnMovimentProcessed;
+            _domainEventDispatcher.ToggleProcessed += OnToggleProcessed;
+            _domainEventDispatcher.ShiftTurnProcessed += OnShiftTurnProcessed;
+            _domainEventDispatcher.MessageReceived += OnMessageReceived;
 
             // desistencia
         }
@@ -93,7 +85,7 @@ namespace OthelloUI
                     Position = pos
                 };
 
-                await _addBoardPieceUseCase.Handle(input, default);
+                await _mediator.Send(input, new CancellationToken());
                 _addModeOn = false;
                 return;
             }
@@ -116,7 +108,7 @@ namespace OthelloUI
         private async void FinishTurn_Click(object sender, RoutedEventArgs e)
         {
             var input = new ShiftTurnUseCaseInput() { Player = Player.White };
-            await _shiftTurnUseCase.Handle(input, default);
+            await _mediator.Send(input, new CancellationToken());
             DrawCurrentTurn();
         }
 
@@ -148,7 +140,7 @@ namespace OthelloUI
                     Message = message
                 };
 
-                await _chatUseCase.Handle(input, default);
+                await _mediator.Send(input, new CancellationToken());
                 ChatInput.Clear();
             }
         }
@@ -196,7 +188,7 @@ namespace OthelloUI
                         Position = pos
                     };
 
-                    await _togglePieceSideUseCase.Handle(input, default);
+                    await _mediator.Send(input, new CancellationToken());
                 }
             }
             else
@@ -209,7 +201,7 @@ namespace OthelloUI
                     Move = move
                 };
 
-                await _moveBoardPieceUseCase.Handle(input, default);
+                await _mediator.Send(input, new CancellationToken());
 
                 selectedPos = null;
             }

@@ -1,20 +1,20 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using OthelloLogic;
 using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 
 namespace OthelloApplication.UseCases.MoveBoardPiece
 {
-    public class MoveBoardPieceUseCase : IRequestHandler<MoveBoardPieceUseCaseInput>
+    public class MoveBoardPieceUseCase : IMoveBoardPieceUseCase
     {
         private readonly GameState _gameState;
         private readonly ICommunicationManager _communicationManager;
-        public event EventHandler<MovimentProcessedEventArgs> MovimentProcessed;
+        private readonly IDomainEventDispatcher _domainEventDispatcher;
 
-        public MoveBoardPieceUseCase(GameState gameState, ICommunicationManager communicationManager)
+        public MoveBoardPieceUseCase(GameState gameState, ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher)
         {
             _gameState = gameState;
             _communicationManager = communicationManager;
+            _domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task Handle(MoveBoardPieceUseCaseInput request, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ namespace OthelloApplication.UseCases.MoveBoardPiece
 
         protected virtual void OnMovimentProcessed(MovimentProcessedEventArgs move)
         {
-            MovimentProcessed?.Invoke(this, move);
+            _domainEventDispatcher.RaiseMovimentProcessed(move);
         }
     }
 }
