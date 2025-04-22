@@ -1,6 +1,4 @@
 ﻿namespace OthelloApplication.UseCases.Surrender
 {
-    public interface ISurrenderUseCase
-    {
-    }
+    public interface ISurrenderUseCase {}
 }

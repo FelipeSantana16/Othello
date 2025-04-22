@@ -2,8 +2,5 @@
 
 namespace OthelloApplication.UseCases.TogglePieceSide
 {
-    public interface ITogglePieceSideUseCase : IRequestHandler<TogglePieceSideUseCaseInput>
-    {
-        Task Handle(TogglePieceSideUseCaseInput request, CancellationToken cancellationToken);
-    }
+    public interface ITogglePieceSideUseCase : IRequestHandler<TogglePieceSideUseCaseInput> {}
 }
