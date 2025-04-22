@@ -4,11 +4,17 @@
     {
         public Board Board { get; }
         public Player CurrentPlayer { get; private set; }
+        public Player LocalPlayer { get; private set; }
 
         public GameState()
         {
             Board = Board.Initial();
             CurrentPlayer = Player.White;
+        }
+
+        public void DefineLocalPlayer(Player player)
+        {
+            LocalPlayer = player;
         }
 
         public bool CanMovePiece(Position pos)

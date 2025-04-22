@@ -13,12 +13,15 @@ namespace OthelloInfrastructure
     public class MessageHandler
     {
         private readonly IMediator _mediator;
-        
+        private readonly GameState _gameState;
+
         public MessageHandler(
-            IMediator mediator
+            IMediator mediator,
+            GameState gameState
         )
         {
             _mediator = mediator;
+            _gameState = gameState;
         }
 
         public async Task HandleAsync(string message)
@@ -30,7 +33,7 @@ namespace OthelloInfrastructure
 
                 var input = new AddBoardPieceUseCaseInput()
                 {
-                    Player = Player.Black,
+                    Player = _gameState.LocalPlayer.Opponent(),
                     Position = @event.AddLocation
                 };
 
@@ -43,7 +46,7 @@ namespace OthelloInfrastructure
 
                 var input = new MoveBoardPieceUseCaseInput()
                 {
-                    Player = Player.Black,
+                    Player = _gameState.LocalPlayer.Opponent(),
                     Move = @event.MovimentPerformed
                 };
 
@@ -56,7 +59,7 @@ namespace OthelloInfrastructure
 
                 var input = new TogglePieceSideUseCaseInput()
                 {
-                    Player = Player.Black,
+                    Player = _gameState.LocalPlayer.Opponent(),
                     Position = @event.TogglePerformedPosition
                 };
 
@@ -69,7 +72,7 @@ namespace OthelloInfrastructure
 
                 var input = new ShiftTurnUseCaseInput()
                 {
-                    Player = Player.Black
+                    Player = _gameState.LocalPlayer.Opponent()
                 };
 
                 await _mediator.Send(input, new CancellationToken());
@@ -81,7 +84,7 @@ namespace OthelloInfrastructure
 
                 var input = new ChatUseCaseInput()
                 {
-                    Player = Player.Black,
+                    Player = _gameState.LocalPlayer.Opponent(),
                     Message = @event.Message
                 };
 

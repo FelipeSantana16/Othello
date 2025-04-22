@@ -81,7 +81,7 @@ namespace OthelloUI
             {
                 var input = new AddBoardPieceUseCaseInput()
                 {
-                    Player = Player.White,
+                    Player = _gameState.LocalPlayer,
                     Position = pos
                 };
 
@@ -107,21 +107,9 @@ namespace OthelloUI
 
         private async void FinishTurn_Click(object sender, RoutedEventArgs e)
         {
-            var input = new ShiftTurnUseCaseInput() { Player = Player.White };
+            var input = new ShiftTurnUseCaseInput() { Player = _gameState.LocalPlayer };
             await _mediator.Send(input, new CancellationToken());
             DrawCurrentTurn();
-        }
-
-        private void DrawCurrentTurn()
-        {
-            if (_gameState.CurrentPlayer == Player.White)
-            {
-                TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceWhite.png", UriKind.Relative));
-            }
-            else
-            {
-                TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceBlack.png", UriKind.Relative));
-            }
         }
 
         private void SurrenderButton_Click(object sender, RoutedEventArgs e)
@@ -136,7 +124,7 @@ namespace OthelloUI
             {                
                 var input = new ChatUseCaseInput()
                 {
-                    Player = Player.White,
+                    Player = _gameState.LocalPlayer,
                     Message = message
                 };
 
@@ -156,7 +144,19 @@ namespace OthelloUI
                 }
             }
         }
-        
+
+        private void DrawCurrentTurn()
+        {
+            if (_gameState.CurrentPlayer == Player.White)
+            {
+                TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceWhite.png", UriKind.Relative));
+            }
+            else
+            {
+                TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceBlack.png", UriKind.Relative));
+            }
+        }
+
         private Position ToSquarePosition(Point point)
         {
             double squareSize = BoardGrid.ActualWidth / 8;
@@ -184,7 +184,7 @@ namespace OthelloUI
                     selectedPos = null;
                     var input = new TogglePieceSideUseCaseInput()
                     {
-                        Player = Player.White,
+                        Player = _gameState.LocalPlayer,
                         Position = pos
                     };
 
@@ -197,7 +197,7 @@ namespace OthelloUI
                 
                 var input = new MoveBoardPieceUseCaseInput()
                 {
-                    Player = Player.White,
+                    Player = _gameState.LocalPlayer,
                     Move = move
                 };
 
@@ -266,7 +266,7 @@ namespace OthelloUI
             var messageBlock = new TextBlock
             {
                 Text = $"{e.Player.ToString()}: {e.Message}",
-                Foreground = Brushes.White,
+                Foreground = _gameState.LocalPlayer == Player.White? Brushes.White : Brushes.Black,
                 Margin = new Thickness(0, 2, 0, 2)
             };
 

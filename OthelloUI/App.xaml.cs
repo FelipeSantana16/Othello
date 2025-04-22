@@ -33,6 +33,9 @@ namespace OthelloUI
             var server = _serviceProvider.GetRequiredService<TcpServer>();
             _ = server.StartAsync(isServer: true);
 
+            var gameState = _serviceProvider.GetRequiredService<GameState>();
+            gameState.DefineLocalPlayer(Player.White);
+
             var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }

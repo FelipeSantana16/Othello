@@ -50,9 +50,9 @@ namespace OthelloApplication.UseCases.TogglePieceSide
             return;
         }
 
-        protected virtual void OnToggleProcessed(ToggleProcessedEventArgs move)
+        protected virtual void OnToggleProcessed(ToggleProcessedEventArgs toggle)
         {
-            _domainEventDispatcher.RaiseToggleProcessed(move);
+            _domainEventDispatcher.RaiseToggleProcessed(toggle);
         }
     }
 }
