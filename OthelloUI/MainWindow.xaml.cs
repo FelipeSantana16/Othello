@@ -254,6 +254,7 @@ namespace OthelloUI
             if (e.IsSuccess)
             {
                 DrawBoard(_gameState.Board);
+                DrawCurrentTurn();
             }
             else
             {
@@ -266,7 +267,7 @@ namespace OthelloUI
             var messageBlock = new TextBlock
             {
                 Text = $"{e.Player.ToString()}: {e.Message}",
-                Foreground = _gameState.LocalPlayer == Player.White? Brushes.White : Brushes.Black,
+                Foreground = e.Player == Player.White? Brushes.White : Brushes.Black,
                 Margin = new Thickness(0, 2, 0, 2)
             };
 

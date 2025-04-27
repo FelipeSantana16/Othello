@@ -37,7 +37,11 @@ namespace OthelloApplication.UseCases.ShiftTurn
 
             OnShiftTuenProcessed(shiftTurnEvent);
 
-            await _communicationManager.SendShiftTurnExecutedMessageAsync(shiftTurnEvent);
+            if (request.Player == _gameState.LocalPlayer)
+            {
+                await _communicationManager.SendShiftTurnExecutedMessageAsync(shiftTurnEvent);
+            }
+
             return;
         }
 

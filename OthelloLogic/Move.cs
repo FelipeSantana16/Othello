@@ -2,8 +2,10 @@
 {
     public class Move
     {
-        public Position FromPos { get; }
-        public Position ToPos { get; }
+        public Position FromPos { get; set; }
+        public Position ToPos { get; set; }
+
+        public Move() { }
 
         public Move(Position from, Position to)
         {

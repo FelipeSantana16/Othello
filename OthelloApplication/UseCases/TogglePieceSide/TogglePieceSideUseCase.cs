@@ -46,7 +46,11 @@ namespace OthelloApplication.UseCases.TogglePieceSide
 
             OnToggleProcessed(toggleEventArgs);
 
-            await _communicationManager.SendTogglePerformedMessageAsync(toggleEventArgs);
+            if (request.Player == _gameState.LocalPlayer)
+            {
+                await _communicationManager.SendTogglePerformedMessageAsync(toggleEventArgs);
+            }
+
             return;
         }
 

@@ -46,7 +46,11 @@ namespace OthelloApplication.UseCases.MoveBoardPiece
 
             OnMovimentProcessed(movimentEventArgs);
 
-            await _communicationManager.SendBoardPieceMovedMessageAsync(movimentEventArgs);
+            if (request.Player == _gameState.LocalPlayer)
+            {
+                await _communicationManager.SendBoardPieceMovedMessageAsync(movimentEventArgs);
+            }
+
             return;
         }
 

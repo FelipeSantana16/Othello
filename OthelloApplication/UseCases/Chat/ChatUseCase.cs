@@ -1,4 +1,5 @@
-﻿using OthelloLogic.Interfaces;
+﻿using OthelloLogic;
+using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
 
 namespace OthelloApplication.UseCases.Chat
@@ -7,11 +8,13 @@ namespace OthelloApplication.UseCases.Chat
     {
         private readonly ICommunicationManager _communicationManager;
         private readonly IDomainEventDispatcher _domainEventDispatcher;
+        private readonly GameState _gameState;
 
-        public ChatUseCase(ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher)
+        public ChatUseCase(ICommunicationManager communicationManager, IDomainEventDispatcher domainEventDispatcher, GameState gameState)
         {
             _communicationManager = communicationManager;
             _domainEventDispatcher = domainEventDispatcher;
+            _gameState = gameState;
         }
 
         public async Task Handle(ChatUseCaseInput request, CancellationToken cancellationToken)
@@ -24,7 +27,10 @@ namespace OthelloApplication.UseCases.Chat
 
             OnMessageReceived(messageEvent);
 
-            await _communicationManager.SendChatMessageAsync(messageEvent);
+            if (request.Player == _gameState.LocalPlayer)
+            {
+                await _communicationManager.SendChatMessageAsync(messageEvent);
+            }
         }
 
         protected virtual void OnMessageReceived(MessageReceivedEventArgs message)

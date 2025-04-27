@@ -46,7 +46,11 @@ namespace OthelloApplication.UseCases.AddBoardPiece
 
             OnAddProcessed(addEventArgs);
 
-            await _communicationManager.SendBoardPieceAddedMessageAsync(addEventArgs);
+            if (request.Player == _gameState.LocalPlayer)
+            {
+                await _communicationManager.SendBoardPieceAddedMessageAsync(addEventArgs);
+            }
+
             return;
         }
 
