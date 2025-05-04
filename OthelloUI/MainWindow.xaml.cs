@@ -20,7 +20,7 @@ namespace OthelloUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Image[,] pieceImages = new Image[8, 8];
+        private readonly Image[,] pieceImages = new Image[5, 5];
 
         private readonly IMediator _mediator;
 
@@ -55,15 +55,14 @@ namespace OthelloUI
             _domainEventDispatcher.ToggleProcessed += OnToggleProcessed;
             _domainEventDispatcher.ShiftTurnProcessed += OnShiftTurnProcessed;
             _domainEventDispatcher.MessageReceived += OnMessageReceived;
-
-            // desistencia
+            _domainEventDispatcher.SurrenderProcessed += OnSurrenderReceived;
         }
 
         public void InitializeBoard()
         {
-            for (int r = 0; r < 8; r++)
+            for (int r = 0; r < 5; r++)
             {
-                for (int c = 0; c < 8; c++)
+                for (int c = 0; c < 5; c++)
                 {
                     Image image = new Image();
                     pieceImages[r, c] = image;
@@ -135,9 +134,9 @@ namespace OthelloUI
 
         public void DrawBoard(Board board)
         {
-            for (int r = 0; r < 8; r++)
+            for (int r = 0; r < 5; r++)
             {
-                for (int c = 0; c < 8; c++)
+                for (int c = 0; c < 5; c++)
                 {
                     Piece piece = board[r, c];
                     pieceImages[r, c].Source = Images.GetImage(piece);
@@ -159,7 +158,7 @@ namespace OthelloUI
 
         private Position ToSquarePosition(Point point)
         {
-            double squareSize = BoardGrid.ActualWidth / 8;
+            double squareSize = BoardGrid.ActualWidth / 5;
             int row = (int)(point.Y / squareSize);
             int col = (int)(point.X / squareSize);
 
@@ -272,6 +271,11 @@ namespace OthelloUI
             };
 
             ChatMessages.Children.Add(messageBlock);
+        }
+
+        private void OnSurrenderReceived(object sender, SurrenderEventArgs e)
+        {
+            MessageBox.Show($"Winner: {e.Player.Opponent()}!");
         }
     }
 }

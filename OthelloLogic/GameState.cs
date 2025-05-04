@@ -5,11 +5,13 @@
         public Board Board { get; }
         public Player CurrentPlayer { get; private set; }
         public Player LocalPlayer { get; private set; }
+        public Player Winner { get; set; }
 
         public GameState()
         {
             Board = Board.Initial();
             CurrentPlayer = Player.White;
+            Winner = Player.None;
         }
 
         public void DefineLocalPlayer(Player player)

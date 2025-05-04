@@ -12,6 +12,7 @@
     <None Remove="Assets\Board.png" />
     <None Remove="Assets\pieceBlack.png" />
     <None Remove="Assets\pieceWhite.png" />
+    <None Remove="Assets\seegaTabuleiro.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
     <Resource Include="Assets\Board.png" />
     <Resource Include="Assets\pieceBlack.png" />
     <Resource Include="Assets\pieceWhite.png" />
+    <Resource Include="Assets\seegaTabuleiro.png" />
   </ItemGroup>
 
 </Project>

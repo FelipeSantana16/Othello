@@ -1,4 +1,6 @@
-﻿namespace OthelloApplication.UseCases.Surrender
+﻿using MediatR;
+
+namespace OthelloApplication.UseCases.Surrender
 {
-    public interface ISurrenderUseCase {}
+    public interface ISurrenderUseCase : IRequestHandler<SurrenderUseCaseInput> {}
 }

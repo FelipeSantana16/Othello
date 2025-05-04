@@ -48,5 +48,12 @@ namespace OthelloApplication.Interfaces
             var chatMessage = "MESSAGE-" + jsonMessage;
             await _tcpServer.SendMessageToOpponentPlayerAsync(chatMessage);
         }
+
+        public async Task SendSurrenderMessageAsync(SurrenderEventArgs message)
+        {
+            var jsonMessage = JsonSerializer.Serialize(message);
+            var surrenderMessage = "SURRENDER-" + jsonMessage;
+            await _tcpServer.SendMessageToOpponentPlayerAsync(surrenderMessage);
+        }
     }
 }

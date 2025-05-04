@@ -5,61 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OthelloUI"
         mc:Ignorable="d"
-        Title="Othello"
+        Title="Seega"
         Width="1000"
         Height="724"
         WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow"
         Background="Black"
         ResizeMode="NoResize">
-
     <Grid>
-        <!-- Definição das duas colunas principais -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <!-- Coluna Esquerda -->
-            <ColumnDefinition Width="*"/>
-            <!-- Coluna Direita (Tabuleiro) -->
-        </Grid.ColumnDefinitions>
+            <!-- Definição das duas colunas principais -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <!-- Coluna Esquerda -->
+                <ColumnDefinition Width="*"/>
+                <!-- Coluna Direita (Tabuleiro) -->
+            </Grid.ColumnDefinitions>
 
-        <!-- Coluna Esquerda -->
-        <StackPanel Grid.Column="0" 
-                    Background="LightGray" 
+            <!-- Coluna Esquerda -->
+            <StackPanel Grid.Column="0" 
+                    Background="DimGray" 
                     VerticalAlignment="Stretch">
 
-            <!-- Nome do Jogo -->
-            <TextBlock Text="Othello" 
+                <!-- Nome do Jogo -->
+                <TextBlock Text="Seega" 
                        FontSize="24" 
                        FontWeight="Bold" 
                        Foreground="Black" 
                        HorizontalAlignment="Center" 
                        Margin="0,20,0,20"/>
- 
-            <!-- Indicador de Turno -->
-            <StackPanel Orientation="Horizontal" 
+
+                <!-- Indicador de Turno -->
+                <StackPanel Orientation="Horizontal" 
                         VerticalAlignment="Center" 
                         Margin="20,0,20,20">
-                
-                <TextBlock x:Name="TurnIndicatorText" 
+
+                    <TextBlock x:Name="TurnIndicatorText" 
                            Text="Turno atual:" 
                            FontSize="16"
                            FontWeight="Bold"
                            Foreground="Black" 
                            VerticalAlignment="Center"/>
-                
-                <Image x:Name="TurnIndicatorImage" 
+
+                    <Image x:Name="TurnIndicatorImage" 
                           Width="50" 
                           Height="50"
                           RenderOptions.BitmapScalingMode="HighQuality"
                           Margin="10,0,10,0"/>
-            </StackPanel>
+                </StackPanel>
 
-            <!-- Botões de Ação -->
-            <StackPanel Orientation="Vertical" 
+                <!-- Botões de Ação -->
+                <StackPanel Orientation="Vertical" 
                         HorizontalAlignment="Stretch" 
                         Margin="20,0,20,20"
                         >
 
-                <Button Content="Adicionar Peça"
+                    <Button Content="Adicionar Peça"
                         Foreground="White"
                         Height="32"
                         Margin="0, 0, 0, 4"
@@ -67,14 +67,14 @@
                         BorderBrush="#343a40"
                         Click="AddPieceButton_Click">
 
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
-                <Button Content="Finalizar turno" 
+                    <Button Content="Finalizar turno" 
                         Foreground="White"
                         Height="32" 
                         Margin="0, 0, 0, 4"
@@ -82,53 +82,53 @@
                         BorderBrush="#343a40"
                         Click="FinishTurn_Click">
 
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
-                <Button Content="Desistir" 
+                    <Button Content="Desistir" 
                         Foreground="White"
                         Height="32" 
                         Background="#fa5252"
                         BorderBrush="#fa5252"
                         Click="SurrenderButton_Click">
-                    
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
 
-            </StackPanel>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="8"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
 
-            <!-- Chat -->
-            <Border  Background="#3C3C3C" 
+                </StackPanel>
+
+                <!-- Chat -->
+                <Border  Background="#3C3C3C" 
                     CornerRadius="5" 
                     Padding="10" 
                     VerticalAlignment="Stretch" 
                     HorizontalAlignment="Stretch">
-                <DockPanel>
-                    <TextBlock Text="Chat" 
+                    <DockPanel>
+                        <TextBlock Text="Chat" 
                                FontSize="16" 
                                FontWeight="Bold" 
                                Foreground="White" 
                                DockPanel.Dock="Top" 
                                Margin="0,0,0,40"/>
 
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" 
                                   DockPanel.Dock="Top" 
                                   Height="300">
-                        <StackPanel x:Name="ChatMessages">
-                            <!-- Mensagens do chat serão adicionadas aqui -->
-                        </StackPanel>
-                    </ScrollViewer>
+                            <StackPanel x:Name="ChatMessages">
+                                <!-- Mensagens do chat serão adicionadas aqui -->
+                            </StackPanel>
+                        </ScrollViewer>
 
-                    <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
-                        <TextBox x:Name="ChatInput"
+                        <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                            <TextBox x:Name="ChatInput"
                                  DockPanel.Dock="Left"
                                  Width="200"
                                  Height="30"
@@ -137,35 +137,35 @@
                                  Background="#505050" 
                                  Foreground="White"
                                  BorderBrush="#707070"/>
-                        <Button x:Name="SendMessageButton"
+                            <Button x:Name="SendMessageButton"
                                 Content="Enviar"
                                 Width="80"
                                 Height="30"
                                 Click="SendMessageButton_Click"/>
+                        </DockPanel>
                     </DockPanel>
-                </DockPanel>
-            </Border>
-        </StackPanel>
+                </Border>
+            </StackPanel>
 
-        <!-- Coluna Direita (Tabuleiro) -->
-        <Viewbox Grid.Column="1" 
+            <!-- Coluna Direita (Tabuleiro) -->
+            <Viewbox Grid.Column="1" 
                  HorizontalAlignment="Center" 
                  VerticalAlignment="Center">
-            <Grid x:Name="BoardGrid"
+                <Grid x:Name="BoardGrid"
                   Width="600"
                   Height="600"
                   MouseDown="BoardGrid_MouseDown">
-                <Grid.Background>
-                    <ImageBrush ImageSource="Assets/Board.png"/>
-                </Grid.Background>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="/Assets/seegaTabuleiro.png"/>
+                    </Grid.Background>
 
-                <UniformGrid x:Name="PieceGrid"
-                             Rows="8"
-                             Columns="8"
+                    <UniformGrid x:Name="PieceGrid"
+                             Rows="5"
+                             Columns="5"
                              RenderOptions.BitmapScalingMode="HighQuality">
-                    <!-- Imagens das peças serão adicionadas aqui -->
-                </UniformGrid>
-            </Grid>
-        </Viewbox>
-    </Grid>
+                        <!-- Imagens das peças serão adicionadas aqui -->
+                    </UniformGrid>
+                </Grid>
+            </Viewbox>
+        </Grid>
 </Window>
