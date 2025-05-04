@@ -34,7 +34,14 @@ namespace OthelloApplication.UseCases.AddBoardPiece
             {
                 addEventArgs.IsSuccess = false;
                 addEventArgs.ErrorMessage = "Cant add piece to selected position";
+                OnAddProcessed(addEventArgs);
+                return;
+            }
 
+            if (!_gameState.HasPieceAvailable(request.Player))
+            {
+                addEventArgs.IsSuccess = false;
+                addEventArgs.ErrorMessage = $"No {request.Player} pices available";
                 OnAddProcessed(addEventArgs);
                 return;
             }

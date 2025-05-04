@@ -11,6 +11,7 @@ namespace OthelloApplication.Services
         public event EventHandler<ShiftTurnEventArgs> ShiftTurnProcessed;
         public event EventHandler<ToggleProcessedEventArgs> ToggleProcessed;
         public event EventHandler<SurrenderEventArgs> SurrenderProcessed;
+        public event EventHandler<CaptureProcessedEvent> CaptureProcessed;
 
         public void RaiseAddProcessed(AddProcessedEventArgs e)
         {
@@ -40,6 +41,11 @@ namespace OthelloApplication.Services
         public void RaiseSurrender(SurrenderEventArgs e)
         {
             SurrenderProcessed?.Invoke(this, e);
+        }
+
+        public void RaiseCapture(CaptureProcessedEvent e)
+        {
+            CaptureProcessed?.Invoke(this, e);
         }
     }
 }

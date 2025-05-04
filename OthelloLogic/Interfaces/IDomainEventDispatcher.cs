@@ -10,8 +10,10 @@ namespace OthelloLogic.Interfaces
         event EventHandler<ShiftTurnEventArgs> ShiftTurnProcessed;
         event EventHandler<ToggleProcessedEventArgs> ToggleProcessed;
         event EventHandler<SurrenderEventArgs> SurrenderProcessed;
+        event EventHandler<CaptureProcessedEvent> CaptureProcessed;
 
         void RaiseAddProcessed(AddProcessedEventArgs e);
+        void RaiseCapture(CaptureProcessedEvent e);
         void RaiseMessageReceived(MessageReceivedEventArgs e);
         void RaiseMovimentProcessed(MovimentProcessedEventArgs e);
         void RaiseShiftTurnProcessed(ShiftTurnEventArgs e);

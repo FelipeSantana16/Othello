@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OthelloApplication.UseCases.AddBoardPiece;
+using OthelloApplication.UseCases.CaptureBoardPiece;
 using OthelloApplication.UseCases.Chat;
 using OthelloApplication.UseCases.MoveBoardPiece;
 using OthelloApplication.UseCases.ShiftTurn;
@@ -56,6 +57,7 @@ namespace OthelloUI
             _domainEventDispatcher.ShiftTurnProcessed += OnShiftTurnProcessed;
             _domainEventDispatcher.MessageReceived += OnMessageReceived;
             _domainEventDispatcher.SurrenderProcessed += OnSurrenderReceived;
+            _domainEventDispatcher.CaptureProcessed += OnCaptureReceived;
         }
 
         public void InitializeBoard()
@@ -120,7 +122,7 @@ namespace OthelloUI
         {
             string message = ChatInput.Text;
             if (!string.IsNullOrWhiteSpace(message))
-            {                
+            {
                 var input = new ChatUseCaseInput()
                 {
                     Player = _gameState.LocalPlayer,
@@ -174,14 +176,14 @@ namespace OthelloUI
         {
             if (selectedPos == pos)
             {
-                if(_gameState.Board.IsEmpty(pos))
+                if (_gameState.Board.IsEmpty(pos))
                 {
                     selectedPos = null;
                 }
                 else
                 {
                     selectedPos = null;
-                    var input = new TogglePieceSideUseCaseInput()
+                    var input = new CaptureBoardPieceUseCaseInput()
                     {
                         Player = _gameState.LocalPlayer,
                         Position = pos
@@ -193,7 +195,7 @@ namespace OthelloUI
             else
             {
                 var move = new Move(selectedPos, pos);
-                
+
                 var input = new MoveBoardPieceUseCaseInput()
                 {
                     Player = _gameState.LocalPlayer,
@@ -266,7 +268,7 @@ namespace OthelloUI
             var messageBlock = new TextBlock
             {
                 Text = $"{e.Player.ToString()}: {e.Message}",
-                Foreground = e.Player == Player.White? Brushes.White : Brushes.Black,
+                Foreground = e.Player == Player.White ? Brushes.White : Brushes.Black,
                 Margin = new Thickness(0, 2, 0, 2)
             };
 
@@ -276,6 +278,18 @@ namespace OthelloUI
         private void OnSurrenderReceived(object sender, SurrenderEventArgs e)
         {
             MessageBox.Show($"Winner: {e.Player.Opponent()}!");
+        }
+
+        private void OnCaptureReceived(object sender, CaptureProcessedEvent e)
+        {
+            if (e.IsSuccess)
+            {
+                DrawBoard(_gameState.Board);
+            }
+            else
+            {
+                MessageBox.Show($"Captura não realizada. Justificativa: {e.ErrorMessage}", "Captura", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }
