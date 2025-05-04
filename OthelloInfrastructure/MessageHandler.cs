@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using OthelloApplication.UseCases.AddBoardPiece;
+using OthelloApplication.UseCases.CaptureBoardPiece;
 using OthelloApplication.UseCases.Chat;
 using OthelloApplication.UseCases.MoveBoardPiece;
 using OthelloApplication.UseCases.ShiftTurn;
@@ -86,6 +87,19 @@ namespace OthelloInfrastructure
                 {
                     Player = _gameState.LocalPlayer.Opponent(),
                     Message = @event.Message
+                };
+
+                await _mediator.Send(input, new CancellationToken());
+            }
+            else if (message.StartsWith("CAPTURE"))
+            {
+                var messageParts = message.Split("-");
+                var @event = JsonSerializer.Deserialize<CaptureProcessedDto>(message[1]);
+
+                var input = new CaptureBoardPieceUseCaseInput()
+                {
+                    Player = _gameState.LocalPlayer.Opponent(),
+                    Position = @event.CapturedPosition
                 };
 
                 await _mediator.Send(input, new CancellationToken());
