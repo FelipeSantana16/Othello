@@ -1,7 +1,7 @@
-﻿using OthelloLogic.Interfaces;
-using OthelloLogic.Messages;
+﻿using Logic.Interfaces;
+using Logic.Messages;
 
-namespace OthelloApplication.Services
+namespace ApplicationLayer.Services
 {
     public class DomainEventDispatcher : IDomainEventDispatcher
     {

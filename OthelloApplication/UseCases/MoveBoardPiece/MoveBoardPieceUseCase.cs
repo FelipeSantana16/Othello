@@ -1,8 +1,8 @@
-﻿using OthelloLogic;
-using OthelloLogic.Interfaces;
-using OthelloLogic.Messages;
+﻿using Logic;
+using Logic.Interfaces;
+using Logic.Messages;
 
-namespace OthelloApplication.UseCases.MoveBoardPiece
+namespace ApplicationLayer.UseCases.MoveBoardPiece
 {
     public class MoveBoardPieceUseCase : IMoveBoardPieceUseCase
     {

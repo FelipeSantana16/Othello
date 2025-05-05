@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using Logic;
+using MediatR;
 
-namespace OthelloApplication.UseCases.AddBoardPiece
+namespace ApplicationLayer.UseCases.AddBoardPiece
 {
     public class AddBoardPieceUseCaseInput : IRequest
     {

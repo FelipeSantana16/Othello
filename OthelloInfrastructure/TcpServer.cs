@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 
-namespace OthelloInfrastructure
+namespace Infrastructure
 {
     public class TcpServer
     {

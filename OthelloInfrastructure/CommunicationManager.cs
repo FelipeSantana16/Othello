@@ -1,9 +1,8 @@
-﻿using OthelloInfrastructure;
-using OthelloLogic.Interfaces;
-using OthelloLogic.Messages;
+﻿using Logic.Interfaces;
+using Logic.Messages;
 using System.Text.Json;
 
-namespace OthelloApplication.Interfaces
+namespace Infrastructure
 {
     public class CommunicationManager : ICommunicationManager
     {

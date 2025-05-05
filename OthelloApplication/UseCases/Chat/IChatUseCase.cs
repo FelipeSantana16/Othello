@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OthelloApplication.UseCases.Chat
+namespace ApplicationLayer.UseCases.Chat
 {
     public interface IChatUseCase : IRequestHandler<ChatUseCaseInput> {}
 }

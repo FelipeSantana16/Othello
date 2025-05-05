@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OthelloApplication.UseCases.TogglePieceSide
+namespace ApplicationLayer.UseCases.TogglePieceSide
 {
     public interface ITogglePieceSideUseCase : IRequestHandler<TogglePieceSideUseCaseInput> {}
 }

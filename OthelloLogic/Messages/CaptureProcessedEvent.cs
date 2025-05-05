@@ -1,4 +1,6 @@
-﻿namespace OthelloLogic.Messages
+﻿using Logic;
+
+namespace Logic.Messages
 {
     public class CaptureProcessedEvent : EventArgs
     {

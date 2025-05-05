@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OthelloApplication.UseCases.Surrender
+namespace ApplicationLayer.UseCases.Surrender
 {
     public interface ISurrenderUseCase : IRequestHandler<SurrenderUseCaseInput> {}
 }

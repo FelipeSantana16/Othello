@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using Logic;
+using MediatR;
 
-namespace OthelloApplication.UseCases.ShiftTurn
+namespace ApplicationLayer.UseCases.ShiftTurn
 {
     public class ShiftTurnUseCaseInput : IRequest
     {

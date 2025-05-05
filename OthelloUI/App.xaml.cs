@@ -1,18 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using OthelloApplication.Interfaces;
-using OthelloApplication.Services;
-using OthelloApplication.UseCases.AddBoardPiece;
-using OthelloApplication.UseCases.Chat;
-using OthelloApplication.UseCases.MoveBoardPiece;
-using OthelloApplication.UseCases.ShiftTurn;
-using OthelloApplication.UseCases.Surrender;
-using OthelloApplication.UseCases.TogglePieceSide;
-using OthelloInfrastructure;
-using OthelloLogic;
-using OthelloLogic.Interfaces;
+﻿using ApplicationLayer.Services;
+using ApplicationLayer.UseCases.AddBoardPiece;
+using ApplicationLayer.UseCases.Chat;
+using ApplicationLayer.UseCases.MoveBoardPiece;
+using ApplicationLayer.UseCases.ShiftTurn;
+using ApplicationLayer.UseCases.Surrender;
+using ApplicationLayer.UseCases.TogglePieceSide;
+using Infrastructure;
+using Logic;
+using Logic.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
-namespace OthelloUI
+namespace UI
 {
     /// <summary>
     /// Interaction logic for App.xaml

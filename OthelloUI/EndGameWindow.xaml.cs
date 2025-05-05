@@ -1,4 +1,4 @@
-﻿using OthelloLogic;
+﻿using Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace OthelloUI
+namespace UI
 {
     /// <summary>
     /// Interaction logic for EndGameWindow.xaml

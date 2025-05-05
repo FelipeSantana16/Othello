@@ -1,8 +1,8 @@
-﻿using OthelloLogic;
-using OthelloLogic.Interfaces;
-using OthelloLogic.Messages;
+﻿using Logic;
+using Logic.Interfaces;
+using Logic.Messages;
 
-namespace OthelloApplication.UseCases.Surrender
+namespace ApplicationLayer.UseCases.Surrender
 {
     public class SurrenderUseCase : ISurrenderUseCase
     {

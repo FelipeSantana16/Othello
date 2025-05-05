@@ -1,6 +1,6 @@
-﻿using OthelloLogic.Messages;
+﻿using Logic.Messages;
 
-namespace OthelloLogic.Interfaces
+namespace Logic.Interfaces
 {
     public interface ICommunicationManager
     {

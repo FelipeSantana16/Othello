@@ -1,8 +1,8 @@
-﻿using OthelloLogic.Interfaces;
-using OthelloLogic;
-using OthelloLogic.Messages;
+﻿using Logic.Interfaces;
+using Logic;
+using Logic.Messages;
 
-namespace OthelloApplication.UseCases.CaptureBoardPiece
+namespace ApplicationLayer.UseCases.CaptureBoardPiece
 {
     public class CaptureBoardPieceUseCase : ICaptureBoardPieceUseCase
     {

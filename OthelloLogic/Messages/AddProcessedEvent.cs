@@ -1,4 +1,4 @@
-﻿namespace OthelloLogic.Messages
+﻿namespace Logic.Messages
 {
     public class AddProcessedEventArgs : EventArgs
     {

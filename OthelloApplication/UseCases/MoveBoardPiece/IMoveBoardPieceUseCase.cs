@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OthelloApplication.UseCases.MoveBoardPiece
+namespace ApplicationLayer.UseCases.MoveBoardPiece
 {
     public interface IMoveBoardPieceUseCase : IRequestHandler<MoveBoardPieceUseCaseInput> {}
 }

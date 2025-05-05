@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using Logic;
+using MediatR;
 
-namespace OthelloApplication.UseCases.Chat
+namespace ApplicationLayer.UseCases.Chat
 {
     public class ChatUseCaseInput : IRequest
     {

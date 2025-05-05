@@ -1,4 +1,4 @@
-﻿namespace OthelloLogic.Dtos
+﻿namespace Logic.Dtos
 {
     public class ToggleProcessedDto
     {

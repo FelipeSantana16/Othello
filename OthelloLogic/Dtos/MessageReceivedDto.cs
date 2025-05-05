@@ -1,4 +1,6 @@
-﻿namespace OthelloLogic.Dtos
+﻿using Logic;
+
+namespace Logic.Dtos
 {
     public class MessageReceivedDto
     {

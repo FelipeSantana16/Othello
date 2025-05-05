@@ -1,20 +1,20 @@
-﻿using MediatR;
-using OthelloApplication.UseCases.AddBoardPiece;
-using OthelloApplication.UseCases.CaptureBoardPiece;
-using OthelloApplication.UseCases.Chat;
-using OthelloApplication.UseCases.MoveBoardPiece;
-using OthelloApplication.UseCases.ShiftTurn;
-using OthelloApplication.UseCases.Surrender;
-using OthelloLogic;
-using OthelloLogic.Interfaces;
-using OthelloLogic.Messages;
+﻿using Logic;
+using Logic.Interfaces;
+using Logic.Messages;
+using MediatR;
+using ApplicationLayer.UseCases.AddBoardPiece;
+using ApplicationLayer.UseCases.CaptureBoardPiece;
+using ApplicationLayer.UseCases.Chat;
+using ApplicationLayer.UseCases.MoveBoardPiece;
+using ApplicationLayer.UseCases.ShiftTurn;
+using ApplicationLayer.UseCases.Surrender;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace OthelloUI
+namespace UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

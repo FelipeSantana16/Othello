@@ -1,7 +1,7 @@
-﻿using MediatR;
-using OthelloLogic;
+﻿using Logic;
+using MediatR;
 
-namespace OthelloApplication.UseCases.TogglePieceSide
+namespace ApplicationLayer.UseCases.TogglePieceSide
 {
     public class TogglePieceSideUseCaseInput : IRequest
     {

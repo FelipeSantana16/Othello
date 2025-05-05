@@ -1,8 +1,8 @@
-﻿using OthelloLogic;
+﻿using Logic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace OthelloUI
+namespace UI
 {
     public static class Images
     {

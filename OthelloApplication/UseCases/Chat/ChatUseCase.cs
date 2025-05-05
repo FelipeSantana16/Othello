@@ -1,8 +1,8 @@
-﻿using OthelloLogic;
-using OthelloLogic.Interfaces;
-using OthelloLogic.Messages;
+﻿using Logic;
+using Logic.Interfaces;
+using Logic.Messages;
 
-namespace OthelloApplication.UseCases.Chat
+namespace ApplicationLayer.UseCases.Chat
 {
     public class ChatUseCase : IChatUseCase
     {

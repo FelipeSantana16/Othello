@@ -1,15 +1,15 @@
-﻿using MediatR;
-using OthelloApplication.UseCases.AddBoardPiece;
-using OthelloApplication.UseCases.CaptureBoardPiece;
-using OthelloApplication.UseCases.Chat;
-using OthelloApplication.UseCases.MoveBoardPiece;
-using OthelloApplication.UseCases.ShiftTurn;
-using OthelloApplication.UseCases.TogglePieceSide;
-using OthelloLogic;
-using OthelloLogic.Dtos;
+﻿using Logic;
+using Logic.Dtos;
+using MediatR;
+using ApplicationLayer.UseCases.AddBoardPiece;
+using ApplicationLayer.UseCases.CaptureBoardPiece;
+using ApplicationLayer.UseCases.Chat;
+using ApplicationLayer.UseCases.MoveBoardPiece;
+using ApplicationLayer.UseCases.ShiftTurn;
+using ApplicationLayer.UseCases.TogglePieceSide;
 using System.Text.Json;
 
-namespace OthelloInfrastructure
+namespace Infrastructure
 {
     public class MessageHandler
     {

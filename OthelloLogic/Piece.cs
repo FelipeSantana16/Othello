@@ -1,4 +1,4 @@
-﻿namespace OthelloLogic
+﻿namespace Logic
 {
     public class Piece
     {

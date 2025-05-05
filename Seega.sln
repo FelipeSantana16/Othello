@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "OthelloUI\UI.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "OthelloInfrastructure\Infrastructure.csproj", "{D4C32EC5-F481-4666-A305-2949882EEAF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "OthelloApplication\Application.csproj", "{D219AD00-4F01-42FE-B4A8-773FA88A38DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationLayer", "OthelloApplication\ApplicationLayer.csproj", "{D219AD00-4F01-42FE-B4A8-773FA88A38DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
