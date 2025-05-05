@@ -4,7 +4,7 @@ using OthelloApplication.UseCases.CaptureBoardPiece;
 using OthelloApplication.UseCases.Chat;
 using OthelloApplication.UseCases.MoveBoardPiece;
 using OthelloApplication.UseCases.ShiftTurn;
-using OthelloApplication.UseCases.TogglePieceSide;
+using OthelloApplication.UseCases.Surrender;
 using OthelloLogic;
 using OthelloLogic.Interfaces;
 using OthelloLogic.Messages;
@@ -113,9 +113,10 @@ namespace OthelloUI
             DrawCurrentTurn();
         }
 
-        private void SurrenderButton_Click(object sender, RoutedEventArgs e)
+        private async void SurrenderButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Você desistiu do jogo!", "Desistência", MessageBoxButton.OK, MessageBoxImage.Information);
+            var input = new SurrenderUseCaseInput() { Player = _gameState.LocalPlayer };
+            await _mediator.Send(input, new CancellationToken());
         }
 
         private async void SendMessageButton_Click(object sender, RoutedEventArgs e)
@@ -277,7 +278,11 @@ namespace OthelloUI
 
         private void OnSurrenderReceived(object sender, SurrenderEventArgs e)
         {
-            MessageBox.Show($"Winner: {e.Player.Opponent()}!");
+            var msgBox = new EndGameWindow();
+            msgBox.Owner = Application.Current.MainWindow;
+            msgBox.Message = $"Winner: {e.Player.Opponent()}!";
+            msgBox.DrawWinner(e.Player.Opponent());
+            msgBox.ShowDialog();
         }
 
         private void OnCaptureReceived(object sender, CaptureProcessedEvent e)

@@ -1,0 +1,32 @@
+﻿<Window x:Class="OthelloUI.EndGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OthelloUI"
+        mc:Ignorable="d"
+        Title="Fim de Jogo"
+        Height="200"
+        Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="MessageText" TextWrapping="Wrap" FontSize="16" VerticalAlignment="Center" TextAlignment="Center"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Image x:Name="WinnerIndicatorImage" 
+                          Width="75"
+                          Height="75"
+                          RenderOptions.BitmapScalingMode="HighQuality"
+                          Margin="10,0,10,0"/>
+            
+            <Button Content="Encerrar" Width="100" Margin="5" Click="OnCloseClick"/>
+        </StackPanel>
+    </Grid>
+</Window>
