@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OthelloLogic\OthelloLogic.csproj" />
+    <ProjectReference Include="..\OthelloLogic\Logic.csproj" />
   </ItemGroup>
 
 </Project>

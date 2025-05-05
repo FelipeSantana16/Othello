@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OthelloLogic", "OthelloLogic\OthelloLogic.csproj", "{343E5E68-0584-412B-BE96-FED948AF275F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "OthelloLogic\Logic.csproj", "{343E5E68-0584-412B-BE96-FED948AF275F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OthelloUI", "OthelloUI\OthelloUI.csproj", "{DBE3C2B5-E9AC-4205-BFD3-B9135AEC7349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI", "OthelloUI\UI.csproj", "{DBE3C2B5-E9AC-4205-BFD3-B9135AEC7349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OthelloInfrastructure", "OthelloInfrastructure\OthelloInfrastructure.csproj", "{D4C32EC5-F481-4666-A305-2949882EEAF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "OthelloInfrastructure\Infrastructure.csproj", "{D4C32EC5-F481-4666-A305-2949882EEAF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OthelloApplication", "OthelloApplication\OthelloApplication.csproj", "{D219AD00-4F01-42FE-B4A8-773FA88A38DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "OthelloApplication\Application.csproj", "{D219AD00-4F01-42FE-B4A8-773FA88A38DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

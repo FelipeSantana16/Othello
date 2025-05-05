@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OthelloApplication\OthelloApplication.csproj" />
-    <ProjectReference Include="..\OthelloInfrastructure\OthelloInfrastructure.csproj" />
-    <ProjectReference Include="..\OthelloLogic\OthelloLogic.csproj" />
+    <ProjectReference Include="..\OthelloApplication\Application.csproj" />
+    <ProjectReference Include="..\OthelloInfrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\OthelloLogic\Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
