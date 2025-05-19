@@ -1,6 +1,4 @@
-﻿using Logic;
-
-namespace Logic.Messages
+﻿namespace Logic.Messages
 {
     public class CaptureProcessedEvent : EventArgs
     {

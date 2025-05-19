@@ -24,19 +24,43 @@ namespace UI
         {
             base.OnStartup(e);
 
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            var startupWindow = new StartupWindow();
+            bool? result = startupWindow.ShowDialog();
 
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            if (result == true)
+            {
+                var selectedPlayer = startupWindow.SelectedPlayer;
 
-            var server = _serviceProvider.GetRequiredService<TcpServer>();
-            _ = server.StartAsync(isServer: true);
+                var serviceCollection = new ServiceCollection();
+                ConfigureServices(serviceCollection);
 
-            var gameState = _serviceProvider.GetRequiredService<GameState>();
-            gameState.DefineLocalPlayer(Player.White);
+                _serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
+                var server = _serviceProvider.GetRequiredService<TcpServer>();
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await server.StartAsync(isServer: selectedPlayer == Player.White);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Erro ao iniciar servidor: {ex.Message}", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                });
+
+                var gameState = _serviceProvider.GetRequiredService<GameState>();
+                gameState.DefineLocalPlayer(selectedPlayer);
+
+                var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+                Application.Current.MainWindow = mainWindow;
+                mainWindow.Show();
+                mainWindow.Closed += (_, __) => Shutdown();
+            }
+            else
+            {
+                Shutdown();
+            }
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -51,14 +75,7 @@ namespace UI
             services.AddSingleton<Board>();
             services.AddSingleton<GameState>();
 
-            services.AddTransient<MainWindow>();
-
-            services.AddTransient<IAddBoardPieceUseCase, AddBoardPieceUseCase>();
-            services.AddTransient<IMoveBoardPieceUseCase, MoveBoardPieceUseCase>();
-            services.AddTransient<IChatUseCase, ChatUseCase>();
-            services.AddTransient<IShiftTurnUseCase, ShiftTurnUseCase>();
-            services.AddTransient<ISurrenderUseCase, SurrenderUseCase>();
-            services.AddTransient<ITogglePieceSideUseCase, TogglePieceSideUseCase>();
+            services.AddSingleton<MainWindow>();
 
             services.AddSingleton<IDomainEventDispatcher, DomainEventDispatcher>();
             services.AddTransient<ICommunicationManager,CommunicationManager>();

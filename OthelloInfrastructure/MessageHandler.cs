@@ -7,6 +7,7 @@ using ApplicationLayer.UseCases.Chat;
 using ApplicationLayer.UseCases.MoveBoardPiece;
 using ApplicationLayer.UseCases.ShiftTurn;
 using ApplicationLayer.UseCases.TogglePieceSide;
+using ApplicationLayer.UseCases.Surrender;
 using System.Text.Json;
 
 namespace Infrastructure
@@ -91,10 +92,22 @@ namespace Infrastructure
 
                 await _mediator.Send(input, new CancellationToken());
             }
+            else if (message.StartsWith("SURRENDER"))
+            {
+                var messageParts = message.Split("-");
+                var @event = JsonSerializer.Deserialize<SurrenderProcessedDto>(messageParts[1]);
+
+                var input = new SurrenderUseCaseInput()
+                {
+                    Player = @event.Player
+                };
+
+                await _mediator.Send(input, new CancellationToken());
+            }
             else if (message.StartsWith("CAPTURE"))
             {
                 var messageParts = message.Split("-");
-                var @event = JsonSerializer.Deserialize<CaptureProcessedDto>(message[1]);
+                var @event = JsonSerializer.Deserialize<CaptureProcessedDto>(messageParts[1]);
 
                 var input = new CaptureBoardPieceUseCaseInput()
                 {

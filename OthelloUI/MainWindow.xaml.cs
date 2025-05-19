@@ -137,26 +137,32 @@ namespace UI
 
         public void DrawBoard(Board board)
         {
-            for (int r = 0; r < 5; r++)
+            Dispatcher.Invoke(() =>
             {
-                for (int c = 0; c < 5; c++)
+                for (int r = 0; r < 5; r++)
                 {
-                    Piece piece = board[r, c];
-                    pieceImages[r, c].Source = Images.GetImage(piece);
+                    for (int c = 0; c < 5; c++)
+                    {
+                        Piece piece = board[r, c];
+                        pieceImages[r, c].Source = Images.GetImage(piece);
+                    }
                 }
-            }
+            });
         }
 
         private void DrawCurrentTurn()
         {
-            if (_gameState.CurrentPlayer == Player.White)
+            Dispatcher.Invoke(() =>
             {
-                TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceWhite.png", UriKind.Relative));
-            }
-            else
-            {
-                TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceBlack.png", UriKind.Relative));
-            }
+                if (_gameState.CurrentPlayer == Player.White)
+                {
+                    TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceWhite.png", UriKind.Relative));
+                }
+                else
+                {
+                    TurnIndicatorImage.Source = new BitmapImage(new Uri("Assets/pieceBlack.png", UriKind.Relative));
+                }
+            });
         }
 
         private Position ToSquarePosition(Point point)
@@ -266,23 +272,29 @@ namespace UI
 
         private void OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            var messageBlock = new TextBlock
+            Dispatcher.Invoke(() =>
             {
-                Text = $"{e.Player.ToString()}: {e.Message}",
-                Foreground = e.Player == Player.White ? Brushes.White : Brushes.Black,
-                Margin = new Thickness(0, 2, 0, 2)
-            };
+                var messageBlock = new TextBlock
+                {
+                    Text = $"{e.Player.ToString()}: {e.Message}",
+                    Foreground = e.Player == Player.White ? Brushes.White : Brushes.Black,
+                    Margin = new Thickness(0, 2, 0, 2)
+                };
 
-            ChatMessages.Children.Add(messageBlock);
+                ChatMessages.Children.Add(messageBlock);
+            });
         }
 
         private void OnSurrenderReceived(object sender, SurrenderEventArgs e)
         {
-            var msgBox = new EndGameWindow();
-            msgBox.Owner = Application.Current.MainWindow;
-            msgBox.Message = $"Winner: {e.Player.Opponent()}!";
-            msgBox.DrawWinner(e.Player.Opponent());
-            msgBox.ShowDialog();
+            Dispatcher.Invoke(() =>
+            {
+                var msgBox = new EndGameWindow();
+                msgBox.Owner = Application.Current.MainWindow;
+                msgBox.Message = $"Winner: {e.Player.Opponent()}!";
+                msgBox.DrawWinner(e.Player.Opponent());
+                msgBox.ShowDialog();
+            });
         }
 
         private void OnCaptureReceived(object sender, CaptureProcessedEvent e)

@@ -24,12 +24,12 @@ namespace ApplicationLayer.UseCases.Surrender
             var surrenderEventArgs = new SurrenderEventArgs();
             surrenderEventArgs.Player = request.Player;
 
-            OnSurrender(surrenderEventArgs);
-
-            if (request.Player != _gameState.LocalPlayer)
+            if (request.Player == _gameState.LocalPlayer)
             {
                 await _communicationManager.SendSurrenderMessageAsync(surrenderEventArgs);
             }
+
+            OnSurrender(surrenderEventArgs);
         }
 
         protected virtual void OnSurrender(SurrenderEventArgs surrender)

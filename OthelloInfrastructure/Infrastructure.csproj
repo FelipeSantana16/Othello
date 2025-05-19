@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OthelloApplication\Application.csproj" />
     <ProjectReference Include="..\OthelloApplication\ApplicationLayer.csproj" />
     <ProjectReference Include="..\OthelloLogic\Logic.csproj" />
   </ItemGroup>
