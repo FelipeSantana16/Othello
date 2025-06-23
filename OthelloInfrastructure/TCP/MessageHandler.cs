@@ -10,7 +10,7 @@ using ApplicationLayer.UseCases.TogglePieceSide;
 using ApplicationLayer.UseCases.Surrender;
 using System.Text.Json;
 
-namespace Infrastructure
+namespace Infrastructure.TCP
 {
     public class MessageHandler
     {

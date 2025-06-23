@@ -2,7 +2,7 @@
 using Logic.Messages;
 using System.Text.Json;
 
-namespace Infrastructure
+namespace Infrastructure.TCP
 {
     public class CommunicationManager : ICommunicationManager
     {

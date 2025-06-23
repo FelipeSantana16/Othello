@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Infrastructure.Protos";
+
+service Seega {
+	rpc AddBoardPiece (AddRequest) returns (google.protobuf.Empty);
+	rpc MoveBoardPiece (MoveRequest) returns (google.protobuf.Empty);
+	rpc CaptureBoardPiece (CaptureRequest) returns (google.protobuf.Empty);
+	rpc ShiftTurn (ShiftTurnRequest) returns (google.protobuf.Empty);
+	rpc SendMessage (SendMessageRequest) returns (google.protobuf.Empty);
+	rpc Surrender (SurrenderRequest) returns (google.protobuf.Empty);
+}
+
+// Requests
+message AddRequest {
+	bool IsSuccess = 1;
+	google.protobuf.StringValue ErrorMessage = 2;
+	Position AddLocation = 3;
+}
+
+message MoveRequest {
+	bool IsSuccess = 1;
+	google.protobuf.StringValue ErrorMessage = 2;
+	Move MovimentPerformed = 3;
+}
+
+message CaptureRequest {
+	bool IsSuccess = 1;
+	google.protobuf.StringValue ErrorMessage = 2;
+	Position CapturedPosition = 3;
+}
+
+message ShiftTurnRequest {
+	bool IsSuccess = 1;
+	google.protobuf.StringValue ErrorMessage = 2;
+	int32 NewTurnPlayer = 3;
+}
+
+message SendMessageRequest {
+	int32 Player = 1;
+	string Message = 2;
+}
+
+message SurrenderRequest {
+	int32 Player = 1;
+}
+
+// Base
+message Position {
+	int32 Row = 1;
+	int32 Column = 2;
+}
+
+message Move {
+	Position FromPos = 1;
+	Position ToPos = 2;
+}

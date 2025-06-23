@@ -50,7 +50,7 @@ namespace UI
             _mediator = mediator;
 
             _domainEventDispatcher = domainEventDispatcher;
-
+            
             _domainEventDispatcher.AddProcessed += OnAddProcessed;
             _domainEventDispatcher.MovimentProcessed += OnMovimentProcessed;
             _domainEventDispatcher.ToggleProcessed += OnToggleProcessed;
