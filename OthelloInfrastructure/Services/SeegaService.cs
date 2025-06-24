@@ -12,7 +12,6 @@ using MediatR;
 
 namespace Infrastructure.Services
 {
-    // ESSE É O SERVIDOR QUE RECEBE AS REQUESTS
     public class SeegaService : Seega.SeegaBase
     {
         private readonly IMediator _mediator;

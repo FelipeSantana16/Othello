@@ -1,4 +1,5 @@
-﻿using Infrastructure.Protos;
+﻿using Grpc.Core;
+using Infrastructure.Protos;
 using Logic.Interfaces;
 using Logic.Messages;
 
@@ -6,11 +7,11 @@ namespace Infrastructure.Services
 {
     public class GrpcCommunicationManager : ICommunicationManager
     {
-        private readonly Seega.SeegaClient _seegaClient;
+        private Seega.SeegaClient _seegaClient;
 
-        public GrpcCommunicationManager(Seega.SeegaClient client)
+        public GrpcCommunicationManager(Seega.SeegaClient seegaClient)
         {
-            _seegaClient = client;
+            _seegaClient = seegaClient;
         }
 
         public async Task SendBoardPieceAddedMessageAsync(AddProcessedEventArgs message)
