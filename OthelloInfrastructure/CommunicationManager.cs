@@ -13,25 +13,11 @@ namespace Infrastructure
             _tcpServer = tcpServer;
         }
 
-        public async Task SendBoardPieceAddedMessageAsync(AddProcessedEventArgs message)
-        {
-            var jsonMessage = JsonSerializer.Serialize(message);
-            var add = "ADD-" + jsonMessage;
-            await _tcpServer.SendMessageToOpponentPlayerAsync(add);
-        }
-
         public async Task SendBoardPieceMovedMessageAsync(MovimentProcessedEventArgs message)
         {
             var jsonMessage = JsonSerializer.Serialize(message);
             var move = "MOVE-" + jsonMessage;
             await _tcpServer.SendMessageToOpponentPlayerAsync(move);
-        }
-
-        public async Task SendTogglePerformedMessageAsync(ToggleProcessedEventArgs message)
-        {
-            var jsonMessage = JsonSerializer.Serialize(message);
-            var toggle = "TOGGLE-" + jsonMessage;
-            await _tcpServer.SendMessageToOpponentPlayerAsync(toggle);
         }
 
         public async Task SendShiftTurnExecutedMessageAsync(ShiftTurnEventArgs message)
@@ -53,13 +39,6 @@ namespace Infrastructure
             var jsonMessage = JsonSerializer.Serialize(message);
             var surrenderMessage = "SURRENDER-" + jsonMessage;
             await _tcpServer.SendMessageToOpponentPlayerAsync(surrenderMessage);
-        }
-
-        public async Task SendCaptureMessageAsync(CaptureProcessedEvent message)
-        {
-            var jsonMessage = JsonSerializer.Serialize(message);
-            var captureMessage = "CAPTURE-" + jsonMessage;
-            await _tcpServer.SendMessageToOpponentPlayerAsync(captureMessage);
         }
     }
 }

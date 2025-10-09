@@ -54,27 +54,12 @@
                 </StackPanel>
 
                 <!-- Botões de Ação -->
-                <StackPanel Orientation="Vertical" 
+            <StackPanel Orientation="Vertical" 
                         HorizontalAlignment="Stretch" 
                         Margin="20,0,20,20"
                         >
 
-                    <Button Content="Adicionar Peça"
-                        Foreground="White"
-                        Height="32"
-                        Margin="0, 0, 0, 4"
-                        Background="#343a40"
-                        BorderBrush="#343a40"
-                        Click="AddPieceButton_Click">
-
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="8"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-
-                    <Button Content="Finalizar turno" 
+                <Button Content="Finalizar turno" 
                         Foreground="White"
                         Height="32" 
                         Margin="0, 0, 0, 4"
@@ -156,12 +141,13 @@
                   Height="600"
                   MouseDown="BoardGrid_MouseDown">
                     <Grid.Background>
-                        <ImageBrush ImageSource="/Assets/seegaTabuleiro.png"/>
+                        <ImageBrush ImageSource="/Assets/board-halma.png"/>
                     </Grid.Background>
 
                     <UniformGrid x:Name="PieceGrid"
-                             Rows="5"
-                             Columns="5"
+                             Rows="8"
+                             Columns="8"
+                             Visibility="Visible"
                              RenderOptions.BitmapScalingMode="HighQuality">
                         <!-- Imagens das peças serão adicionadas aqui -->
                     </UniformGrid>

@@ -1,10 +1,5 @@
 ﻿using ApplicationLayer.Services;
-using ApplicationLayer.UseCases.AddBoardPiece;
-using ApplicationLayer.UseCases.Chat;
 using ApplicationLayer.UseCases.MoveBoardPiece;
-using ApplicationLayer.UseCases.ShiftTurn;
-using ApplicationLayer.UseCases.Surrender;
-using ApplicationLayer.UseCases.TogglePieceSide;
 using Infrastructure;
 using Logic;
 using Logic.Interfaces;
@@ -67,7 +62,7 @@ namespace UI
         {
             services.AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(typeof(AddBoardPieceUseCase).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(MoveBoardPieceUseCase).Assembly);
             });
             
             services.AddTransient<MessageHandler>();

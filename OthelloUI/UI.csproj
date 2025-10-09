@@ -9,10 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\board-halma.png" />
     <None Remove="Assets\Board.png" />
     <None Remove="Assets\pieceBlack.png" />
     <None Remove="Assets\pieceWhite.png" />
     <None Remove="Assets\seegaTabuleiro.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\board-halma.png" />
   </ItemGroup>
 
   <ItemGroup>

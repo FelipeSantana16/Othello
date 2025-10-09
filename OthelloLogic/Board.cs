@@ -2,7 +2,7 @@
 {
     public class Board
     {
-        private readonly Piece[,] pieces = new Piece[5,5];
+        private readonly Piece[,] pieces = new Piece[8,8];
 
         public Piece this[int row, int col]
         {
@@ -19,22 +19,35 @@
         public static Board Initial()
         {
             Board board = new Board();
+            board.AddStartPieces();
 
             return board;
         }
 
-        //public void AddStartPieces()
-        //{
-        //    this[3, 3] = new Piece(Player.White);
-        //    this[4, 4] = new Piece(Player.White);
-
-        //    this[3, 4] = new Piece(Player.Black);
-        //    this[4, 3] = new Piece(Player.Black);
-        //}
-
-        public static bool IsInside(Position pos)
+        private void AddStartPieces()
         {
-            return pos.Row >= 0 && pos.Row <=5 && pos.Column >= 0 && pos.Column <=5;
+            this[0, 0] = new Piece(Player.Black);
+            this[0, 1] = new Piece(Player.Black);
+            this[0, 2] = new Piece(Player.Black);
+            this[0, 3] = new Piece(Player.Black);
+            this[1, 0] = new Piece(Player.Black);
+            this[1, 1] = new Piece(Player.Black);
+            this[1, 2] = new Piece(Player.Black);
+            this[2, 0] = new Piece(Player.Black);
+            this[2, 1] = new Piece(Player.Black);
+            this[3, 0] = new Piece(Player.Black);
+
+
+            this[4, 7] = new Piece(Player.White);
+            this[5, 6] = new Piece(Player.White);
+            this[5, 7] = new Piece(Player.White);
+            this[6, 5] = new Piece(Player.White);
+            this[6, 6] = new Piece(Player.White);
+            this[6, 7] = new Piece(Player.White);
+            this[7, 4] = new Piece(Player.White);
+            this[7, 5] = new Piece(Player.White);
+            this[7, 6] = new Piece(Player.White);
+            this[7, 7] = new Piece(Player.White);
         }
 
         public bool IsEmpty(Position pos)
