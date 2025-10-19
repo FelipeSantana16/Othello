@@ -1,4 +1,6 @@
 ﻿using ApplicationLayer.Services;
+using ApplicationLayer.UseCases.MoveBoardPiece;
+using Infrastructure;
 using ApplicationLayer.UseCases.AddBoardPiece;
 using Infrastructure.Services;
 using Logic;
@@ -70,7 +72,7 @@ namespace UI
         {
             services.AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(typeof(AddBoardPieceUseCase).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(MoveBoardPieceUseCase).Assembly);
             });
 
             services.AddGrpc();

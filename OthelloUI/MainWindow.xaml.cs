@@ -2,8 +2,6 @@
 using Logic.Interfaces;
 using Logic.Messages;
 using MediatR;
-using ApplicationLayer.UseCases.AddBoardPiece;
-using ApplicationLayer.UseCases.CaptureBoardPiece;
 using ApplicationLayer.UseCases.Chat;
 using ApplicationLayer.UseCases.MoveBoardPiece;
 using ApplicationLayer.UseCases.ShiftTurn;
@@ -21,7 +19,7 @@ namespace UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Image[,] pieceImages = new Image[5, 5];
+        private readonly Image[,] pieceImages = new Image[8, 8];
 
         private readonly IMediator _mediator;
 
@@ -50,21 +48,19 @@ namespace UI
             _mediator = mediator;
 
             _domainEventDispatcher = domainEventDispatcher;
-            
-            _domainEventDispatcher.AddProcessed += OnAddProcessed;
+
             _domainEventDispatcher.MovimentProcessed += OnMovimentProcessed;
-            _domainEventDispatcher.ToggleProcessed += OnToggleProcessed;
             _domainEventDispatcher.ShiftTurnProcessed += OnShiftTurnProcessed;
             _domainEventDispatcher.MessageReceived += OnMessageReceived;
             _domainEventDispatcher.SurrenderProcessed += OnSurrenderReceived;
-            _domainEventDispatcher.CaptureProcessed += OnCaptureReceived;
+            _domainEventDispatcher.WinnerProcessed += OnWinnerReceived;
         }
 
         public void InitializeBoard()
         {
-            for (int r = 0; r < 5; r++)
+            for (int r = 0; r < 8; r++)
             {
-                for (int c = 0; c < 5; c++)
+                for (int c = 0; c < 8; c++)
                 {
                     Image image = new Image();
                     pieceImages[r, c] = image;
@@ -78,19 +74,6 @@ namespace UI
             Point point = e.GetPosition(BoardGrid);
             Position pos = ToSquarePosition(point);
 
-            if (_addModeOn)
-            {
-                var input = new AddBoardPieceUseCaseInput()
-                {
-                    Player = _gameState.LocalPlayer,
-                    Position = pos
-                };
-
-                await _mediator.Send(input, new CancellationToken());
-                _addModeOn = false;
-                return;
-            }
-
             if (selectedPos == null)
             {
                 OnFromPositionSelected(pos);
@@ -99,11 +82,6 @@ namespace UI
             {
                 OnToPositionSelected(pos);
             }
-        }
-
-        private void AddPieceButton_Click(object sender, RoutedEventArgs e)
-        {
-            _addModeOn = true;
         }
 
         private async void FinishTurn_Click(object sender, RoutedEventArgs e)
@@ -139,9 +117,9 @@ namespace UI
         {
             Dispatcher.Invoke(() =>
             {
-                for (int r = 0; r < 5; r++)
+                for (int r = 0; r < 8; r++)
                 {
-                    for (int c = 0; c < 5; c++)
+                    for (int c = 0; c < 8; c++)
                     {
                         Piece piece = board[r, c];
                         pieceImages[r, c].Source = Images.GetImage(piece);
@@ -167,7 +145,7 @@ namespace UI
 
         private Position ToSquarePosition(Point point)
         {
-            double squareSize = BoardGrid.ActualWidth / 5;
+            double squareSize = BoardGrid.ActualWidth / 8;
             int row = (int)(point.Y / squareSize);
             int col = (int)(point.X / squareSize);
 
@@ -183,21 +161,7 @@ namespace UI
         {
             if (selectedPos == pos)
             {
-                if (_gameState.Board.IsEmpty(pos))
-                {
-                    selectedPos = null;
-                }
-                else
-                {
-                    selectedPos = null;
-                    var input = new CaptureBoardPieceUseCaseInput()
-                    {
-                        Player = _gameState.LocalPlayer,
-                        Position = pos
-                    };
-
-                    await _mediator.Send(input, new CancellationToken());
-                }
+                selectedPos = null;
             }
             else
             {
@@ -215,21 +179,6 @@ namespace UI
             }
         }
 
-        private void OnAddProcessed(object sender, AddProcessedEventArgs e)
-        {
-            Dispatcher.Invoke(() =>
-            {
-                if (e.IsSuccess)
-                {
-                    DrawBoard(_gameState.Board);
-                }
-                else
-                {
-                    MessageBox.Show($"Adição não realizada. Justificativa: {e.ErrorMessage}", "Adição", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            });
-        }
-
         private void OnMovimentProcessed(object sender, MovimentProcessedEventArgs e)
         {
             Dispatcher.Invoke(() =>
@@ -243,18 +192,6 @@ namespace UI
                     MessageBox.Show($"Movimento não realizado. Justificativa: {e.ErrorMessage}", "Movimentação", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             });
-        }
-
-        private void OnToggleProcessed(object sender, ToggleProcessedEventArgs e)
-        {
-            if (e.IsSuccess)
-            {
-                DrawBoard(_gameState.Board);
-            }
-            else
-            {
-                MessageBox.Show($"Inversão de cor não realizada. Justificativa: {e.ErrorMessage}", "Inversão", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
         }
 
         private void OnShiftTurnProcessed(object sender, ShiftTurnEventArgs e)
@@ -297,16 +234,16 @@ namespace UI
             });
         }
 
-        private void OnCaptureReceived(object sender, CaptureProcessedEvent e)
+        private void OnWinnerReceived(object sender, WinnerEventArgs e)
         {
-            if (e.IsSuccess)
+            Dispatcher.Invoke(() =>
             {
-                DrawBoard(_gameState.Board);
-            }
-            else
-            {
-                MessageBox.Show($"Captura não realizada. Justificativa: {e.ErrorMessage}", "Captura", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+                var msgBox = new EndGameWindow();
+                msgBox.Owner = Application.Current.MainWindow;
+                msgBox.Message = $"Winner: {e.Winner}!";
+                msgBox.DrawWinner(e.Winner);
+                msgBox.ShowDialog();
+            });
         }
     }
 }

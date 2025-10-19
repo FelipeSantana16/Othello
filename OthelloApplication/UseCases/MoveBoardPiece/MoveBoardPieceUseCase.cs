@@ -51,12 +51,25 @@ namespace ApplicationLayer.UseCases.MoveBoardPiece
                 await _communicationManager.SendBoardPieceMovedMessageAsync(movimentEventArgs);
             }
 
+            var (finish, winner) = _gameState.VerifyWinner();
+
+            if (finish)
+            {
+                _gameState.Winner = winner;
+                OnWinnerDeclared(new WinnerEventArgs { Winner = winner });
+            }
+
             return;
         }
 
         protected virtual void OnMovimentProcessed(MovimentProcessedEventArgs move)
         {
             _domainEventDispatcher.RaiseMovimentProcessed(move);
+        }
+
+        protected virtual void OnWinnerDeclared(WinnerEventArgs winner)
+        {
+            _domainEventDispatcher.RaiseWinnerProcessed(winner);
         }
     }
 }

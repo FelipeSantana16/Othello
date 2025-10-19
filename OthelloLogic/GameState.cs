@@ -7,22 +7,11 @@
         public Player LocalPlayer { get; private set; }
         public Player Winner { get; set; }
 
-        public int AvailableWhitePieces { get; set; }
-        public int AvailableBlackPieces { get; set; }
-        public int CapturedWhitePieces { get; set; }
-        public int CapturedBlackPieces { get; set; }
-
-
         public GameState()
         {
             Board = Board.Initial();
             CurrentPlayer = Player.White;
             Winner = Player.None;
-
-            AvailableWhitePieces = 12;
-            AvailableBlackPieces = 12;
-            CapturedWhitePieces = 0;
-            CapturedBlackPieces = 0;
         }
 
         public void DefineLocalPlayer(Player player)
@@ -38,59 +27,40 @@
                 return false;
         }
 
-        public bool CanCapturePiece(Position pos)
-        {
-            if (Board.IsEmpty(pos))
-                return false;
-            else
-                return true;
-        }
-
-        public bool HasPieceAvailable(Player player)
-        {
-            if (player == Player.White) return AvailableWhitePieces > 0;
-
-            if (player == Player.Black) return AvailableBlackPieces > 0;
-
-            return false;
-        }
-
         public void MakeMove(Move move)
         {
             move.Execute(Board);
         }
 
-        public void AddPiece(Player player, Position pos)
-        {
-            Board[pos] = new Piece(player);
-
-            if (player == Player.White)
-            {
-                AvailableWhitePieces -= 1;
-            }
-            else if (player == Player.Black)
-            {
-                AvailableBlackPieces -= 1;
-            }
-        }
-
-        public void CapturePiece(Player player, Position pos)
-        {
-            Board[pos] = null;
-
-            if (player == Player.White)
-            {
-                CapturedBlackPieces += 1;
-            }
-            else if (player == Player.Black)
-            {
-                CapturedWhitePieces += 1;
-            }
-        }
-
         public void FinishTurn()
         {
             CurrentPlayer = CurrentPlayer.Opponent();
+        }
+
+        public (bool, Player) VerifyWinner()
+        {
+            var isBlackWinner = VerifyPositions(Board.BlackPositions, Board.initialWhitePositions);
+
+            if (isBlackWinner)
+                return (true, Player.Black);
+
+            var isWhiteWinner = VerifyPositions(Board.WhitePositions, Board.initialBlackPositions);
+            
+            if (isWhiteWinner)
+                return (true, Player.White);
+
+            return (false, Player.None);
+        }
+
+        private bool VerifyPositions(IEnumerable<Position> playerPositions, IEnumerable<Position> targetPositions)
+        {
+            foreach (var pos in targetPositions)
+            {
+                if (!playerPositions.Contains(pos))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

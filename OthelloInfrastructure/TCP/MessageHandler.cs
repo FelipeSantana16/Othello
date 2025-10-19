@@ -1,12 +1,9 @@
 ﻿using Logic;
 using Logic.Dtos;
 using MediatR;
-using ApplicationLayer.UseCases.AddBoardPiece;
-using ApplicationLayer.UseCases.CaptureBoardPiece;
 using ApplicationLayer.UseCases.Chat;
 using ApplicationLayer.UseCases.MoveBoardPiece;
 using ApplicationLayer.UseCases.ShiftTurn;
-using ApplicationLayer.UseCases.TogglePieceSide;
 using ApplicationLayer.UseCases.Surrender;
 using System.Text.Json;
 
@@ -28,20 +25,7 @@ namespace Infrastructure.TCP
 
         public async Task HandleAsync(string message)
         {
-            if (message.StartsWith("ADD"))
-            {
-                var messageParts = message.Split('-');
-                var @event = JsonSerializer.Deserialize<AddProcessedDto>(messageParts[1]);
-
-                var input = new AddBoardPieceUseCaseInput()
-                {
-                    Player = _gameState.LocalPlayer.Opponent(),
-                    Position = @event.AddLocation
-                };
-
-                await _mediator.Send(input, new CancellationToken());
-            }
-            else if (message.StartsWith("MOVE"))
+            if (message.StartsWith("MOVE"))
             {
                 var messageParts = message.Split('-');
                 var @event = JsonSerializer.Deserialize<MovimentProcessedDto>(messageParts[1]);
@@ -50,19 +34,6 @@ namespace Infrastructure.TCP
                 {
                     Player = _gameState.LocalPlayer.Opponent(),
                     Move = @event.MovimentPerformed
-                };
-
-                await _mediator.Send(input, new CancellationToken());
-            }
-            else if (message.StartsWith("TOGGLE"))
-            {
-                var messageParts = message.Split('-');
-                var @event = JsonSerializer.Deserialize<ToggleProcessedDto>(messageParts[1]);
-
-                var input = new TogglePieceSideUseCaseInput()
-                {
-                    Player = _gameState.LocalPlayer.Opponent(),
-                    Position = @event.TogglePerformedPosition
                 };
 
                 await _mediator.Send(input, new CancellationToken());
@@ -100,19 +71,6 @@ namespace Infrastructure.TCP
                 var input = new SurrenderUseCaseInput()
                 {
                     Player = @event.Player
-                };
-
-                await _mediator.Send(input, new CancellationToken());
-            }
-            else if (message.StartsWith("CAPTURE"))
-            {
-                var messageParts = message.Split("-");
-                var @event = JsonSerializer.Deserialize<CaptureProcessedDto>(messageParts[1]);
-
-                var input = new CaptureBoardPieceUseCaseInput()
-                {
-                    Player = _gameState.LocalPlayer.Opponent(),
-                    Position = @event.CapturedPosition
                 };
 
                 await _mediator.Send(input, new CancellationToken());
