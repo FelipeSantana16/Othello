@@ -14,22 +14,6 @@ namespace Infrastructure.Services
             _seegaClient = seegaClient;
         }
 
-        public async Task SendBoardPieceAddedMessageAsync(AddProcessedEventArgs message)
-        {
-            var addRequest = new AddRequest()
-            {
-                AddLocation = new Position()
-                {
-                    Column = message.AddLocation.Column,
-                    Row = message.AddLocation.Row
-                },
-                IsSuccess = message.IsSuccess,
-                ErrorMessage = message.ErrorMessage
-            };
-
-            await _seegaClient.AddBoardPieceAsync(addRequest, default);
-        }
-
         public async Task SendBoardPieceMovedMessageAsync(MovimentProcessedEventArgs message)
         {
             var movimentRequest = new MoveRequest()
@@ -52,22 +36,6 @@ namespace Infrastructure.Services
             };
 
             await _seegaClient.MoveBoardPieceAsync(movimentRequest, default);
-        }
-
-        public async Task SendCaptureMessageAsync(CaptureProcessedEvent message)
-        {
-            var captureRequest = new CaptureRequest()
-            {
-                CapturedPosition = new Position()
-                {
-                    Column = message.CapturedPosition.Column,
-                    Row = message.CapturedPosition.Row
-                },
-                IsSuccess = message.IsSuccess,
-                ErrorMessage= message.ErrorMessage
-            };
-
-            await _seegaClient.CaptureBoardPieceAsync(captureRequest, default);
         }
 
         public async Task SendChatMessageAsync(MessageReceivedEventArgs message)
@@ -101,11 +69,6 @@ namespace Infrastructure.Services
             };
 
             await _seegaClient.SurrenderAsync(surrenderRequest, default);
-        }
-
-        public Task SendTogglePerformedMessageAsync(ToggleProcessedEventArgs message)
-        {
-            throw new NotImplementedException();
         }
     }
 }

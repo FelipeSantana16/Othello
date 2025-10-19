@@ -1,6 +1,4 @@
-﻿using ApplicationLayer.UseCases.AddBoardPiece;
-using ApplicationLayer.UseCases.CaptureBoardPiece;
-using ApplicationLayer.UseCases.Chat;
+﻿using ApplicationLayer.UseCases.Chat;
 using ApplicationLayer.UseCases.MoveBoardPiece;
 using ApplicationLayer.UseCases.ShiftTurn;
 using ApplicationLayer.UseCases.Surrender;
@@ -26,18 +24,6 @@ namespace Infrastructure.Services
             _gameState = gameState;
         }
 
-        public override async Task<Empty> AddBoardPiece(AddRequest request, ServerCallContext context)
-        {
-            var input = new AddBoardPieceUseCaseInput()
-            {
-                Player = _gameState.LocalPlayer.Opponent(),
-                Position = new Logic.Position(request.AddLocation.Row, request.AddLocation.Column)
-            };
-
-            await _mediator.Send(input);
-            return new Empty();
-        }
-
         public override async Task<Empty> MoveBoardPiece(MoveRequest request, ServerCallContext context)
         {
             var input = new MoveBoardPieceUseCaseInput()
@@ -47,18 +33,6 @@ namespace Infrastructure.Services
                     from: new Logic.Position(request.MovimentPerformed.FromPos.Row, request.MovimentPerformed.FromPos.Column),
                     to: new Logic.Position(request.MovimentPerformed.ToPos.Row, request.MovimentPerformed.ToPos.Column)
                 )
-            };
-
-            await _mediator.Send(input);
-            return new Empty();
-        }
-
-        public override async Task<Empty> CaptureBoardPiece(CaptureRequest request, ServerCallContext context)
-        {
-            var input = new CaptureBoardPieceUseCaseInput()
-            {
-                Player = _gameState.LocalPlayer.Opponent(),
-                Position = new Logic.Position(request.CapturedPosition.Row, request.CapturedPosition.Column)
             };
 
             await _mediator.Send(input);

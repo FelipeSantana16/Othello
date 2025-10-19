@@ -1,7 +1,5 @@
 ﻿using ApplicationLayer.Services;
 using ApplicationLayer.UseCases.MoveBoardPiece;
-using Infrastructure;
-using ApplicationLayer.UseCases.AddBoardPiece;
 using Infrastructure.Services;
 using Logic;
 using Logic.Interfaces;
