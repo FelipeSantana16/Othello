@@ -51,6 +51,14 @@ namespace ApplicationLayer.UseCases.MoveBoardPiece
                 await _communicationManager.SendBoardPieceMovedMessageAsync(movimentEventArgs);
             }
 
+            var (finish, winner) = _gameState.VerifyWinner();
+
+            if (finish)
+            {
+                _gameState.Winner = winner;
+                // lança evento de vencedor
+            }
+
             return;
         }
 

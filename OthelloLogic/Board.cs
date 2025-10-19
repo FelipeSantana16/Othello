@@ -3,6 +3,57 @@
     public class Board
     {
         private readonly Piece[,] pieces = new Piece[8,8];
+        public static readonly Position[] initialBlackPositions = new Position[]
+        {
+            new Position(0, 0), new Position(0, 1), new Position(0, 2), new Position(0, 3),
+            new Position(1, 0), new Position(1, 1), new Position(1, 2),
+            new Position(2, 0), new Position(2, 1),
+            new Position(3, 0)
+        };
+
+        public static readonly Position[] initialWhitePositions = new Position[]
+        {
+                                                                        new Position(4, 7),
+                                                    new Position(5, 6), new Position(5, 7),
+                                new Position(6, 5), new Position(6, 6), new Position(6, 7),
+            new Position(7, 4), new Position(7, 5), new Position(7, 6), new Position(7, 7)
+        };
+
+        public IEnumerable<Position> WhitePositions
+        {
+            get
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        var piece = pieces[i, j];
+                        if (piece != null && piece.Color == Player.White)
+                        {
+                            yield return new Position(i, j);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Position> BlackPositions
+        {
+            get
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        var piece = pieces[i, j];
+                        if (piece != null && piece.Color == Player.Black)
+                        {
+                            yield return new Position(i, j);
+                        }
+                    }
+                }
+            }
+        }
 
         public Piece this[int row, int col]
         {
@@ -20,34 +71,20 @@
         {
             Board board = new Board();
             board.AddStartPieces();
-
             return board;
         }
 
         private void AddStartPieces()
         {
-            this[0, 0] = new Piece(Player.Black);
-            this[0, 1] = new Piece(Player.Black);
-            this[0, 2] = new Piece(Player.Black);
-            this[0, 3] = new Piece(Player.Black);
-            this[1, 0] = new Piece(Player.Black);
-            this[1, 1] = new Piece(Player.Black);
-            this[1, 2] = new Piece(Player.Black);
-            this[2, 0] = new Piece(Player.Black);
-            this[2, 1] = new Piece(Player.Black);
-            this[3, 0] = new Piece(Player.Black);
+            foreach (var pos in initialBlackPositions)
+            {
+                this[pos] = new Piece(Player.Black);
+            }
 
-
-            this[4, 7] = new Piece(Player.White);
-            this[5, 6] = new Piece(Player.White);
-            this[5, 7] = new Piece(Player.White);
-            this[6, 5] = new Piece(Player.White);
-            this[6, 6] = new Piece(Player.White);
-            this[6, 7] = new Piece(Player.White);
-            this[7, 4] = new Piece(Player.White);
-            this[7, 5] = new Piece(Player.White);
-            this[7, 6] = new Piece(Player.White);
-            this[7, 7] = new Piece(Player.White);
+            foreach (var pos in initialWhitePositions)
+            {
+                this[pos] = new Piece(Player.White);
+            }
         }
 
         public bool IsEmpty(Position pos)

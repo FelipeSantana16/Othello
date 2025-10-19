@@ -36,5 +36,31 @@
         {
             CurrentPlayer = CurrentPlayer.Opponent();
         }
+
+        public (bool, Player) VerifyWinner()
+        {
+            var isBlackWinner = VerifyPositions(Board.BlackPositions, Board.initialWhitePositions);
+
+            if (isBlackWinner)
+                return (true, Player.Black);
+
+            var isWhiteWinner = VerifyPositions(Board.WhitePositions, Board.initialBlackPositions);
+            
+            if (isWhiteWinner)
+                return (true, Player.White);
+
+            return (false, Player.None);
+        }
+
+        private bool VerifyPositions(IEnumerable<Position> playerPositions, IEnumerable<Position> targetPositions)
+        {
+            foreach (var pos in targetPositions)
+            {
+                if (!playerPositions.Contains(pos))
+                    return false;
+            }
+
+            return true;
+        }
     }
 }
