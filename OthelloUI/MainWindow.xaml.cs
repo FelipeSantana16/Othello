@@ -53,6 +53,7 @@ namespace UI
             _domainEventDispatcher.ShiftTurnProcessed += OnShiftTurnProcessed;
             _domainEventDispatcher.MessageReceived += OnMessageReceived;
             _domainEventDispatcher.SurrenderProcessed += OnSurrenderReceived;
+            _domainEventDispatcher.WinnerProcessed += OnWinnerReceived;
         }
 
         public void InitializeBoard()
@@ -229,6 +230,18 @@ namespace UI
                 msgBox.Owner = Application.Current.MainWindow;
                 msgBox.Message = $"Winner: {e.Player.Opponent()}!";
                 msgBox.DrawWinner(e.Player.Opponent());
+                msgBox.ShowDialog();
+            });
+        }
+
+        private void OnWinnerReceived(object sender, WinnerEventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                var msgBox = new EndGameWindow();
+                msgBox.Owner = Application.Current.MainWindow;
+                msgBox.Message = $"Winner: {e.Winner}!";
+                msgBox.DrawWinner(e.Winner);
                 msgBox.ShowDialog();
             });
         }

@@ -9,6 +9,7 @@ namespace ApplicationLayer.Services
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
         public event EventHandler<ShiftTurnEventArgs> ShiftTurnProcessed;
         public event EventHandler<SurrenderEventArgs> SurrenderProcessed;
+        public event EventHandler<WinnerEventArgs> WinnerProcessed;
 
         public void RaiseMovimentProcessed(MovimentProcessedEventArgs e)
         {
@@ -28,6 +29,11 @@ namespace ApplicationLayer.Services
         public void RaiseSurrender(SurrenderEventArgs e)
         {
             SurrenderProcessed?.Invoke(this, e);
+        }
+
+        public void RaiseWinnerProcessed(WinnerEventArgs e)
+        {
+            WinnerProcessed?.Invoke(this, e);
         }
     }
 }

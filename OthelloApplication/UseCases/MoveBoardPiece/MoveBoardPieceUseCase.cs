@@ -56,7 +56,7 @@ namespace ApplicationLayer.UseCases.MoveBoardPiece
             if (finish)
             {
                 _gameState.Winner = winner;
-                // lança evento de vencedor
+                OnWinnerDeclared(new WinnerEventArgs { Winner = winner });
             }
 
             return;
@@ -65,6 +65,11 @@ namespace ApplicationLayer.UseCases.MoveBoardPiece
         protected virtual void OnMovimentProcessed(MovimentProcessedEventArgs move)
         {
             _domainEventDispatcher.RaiseMovimentProcessed(move);
+        }
+
+        protected virtual void OnWinnerDeclared(WinnerEventArgs winner)
+        {
+            _domainEventDispatcher.RaiseWinnerProcessed(winner);
         }
     }
 }
